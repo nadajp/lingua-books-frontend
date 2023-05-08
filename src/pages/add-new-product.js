@@ -257,7 +257,7 @@ export default function NewProductForm() {
             type="submit"
             className="bg-red-700 hover:bg-red-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
-            Add Book
+            Submit
             </button>
         </div>
     </form>

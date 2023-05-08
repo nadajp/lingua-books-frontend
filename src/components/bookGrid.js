@@ -1,7 +1,7 @@
 import BookThumbnail from "./bookThumb";
 import Filters from "./filters";
 
-export default function Bookstore({ books }) {
+export default function BookGrid({ books }) {
     return (
         <div className="container xl:max-w-screen-xl mx-auto py-12 px-6">
             <div>

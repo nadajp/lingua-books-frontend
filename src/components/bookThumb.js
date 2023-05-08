@@ -2,22 +2,24 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function BookThumbnail ({ book, index }) {
+    const src = `data:image/jpeg;base64,${book.image}`;
     return (
-        <Link 
+    <Link 
         href={`/products/${book.id}`} 
         className="group overflow-hidden"
-        >
+    >
         <div className="relative w-full h-64">
-            <Image 
-              priority = {index === 0} 
-              src={book.imageUrl} 
-              alt={book.name} 
-              fill 
-              sizes="100"
-              style={{
+        <Image 
+            priority={index === 0} 
+            src={src}
+            alt={book.name} 
+            sizes="100"
+            fill
+            accept="image/jpeg,image/png"
+            style={{
                 objectFit: 'contain'
-              }}
-              />
+            }}
+        /> 
         </div>
         <div className="relative w-full">
             <p className="mt-1 flex justify-center font-semibold text-md text-red-400">{book.title}</p>
