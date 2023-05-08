@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { loadProducts } from "../lib/products";
 
 export default function Book({ book }) {
   return (
@@ -8,7 +9,7 @@ export default function Book({ book }) {
       </div>
       <div className="p-4 md:w-2/3 flex flex-col justify-between">
         <div>
-          <h2 className="text-xl font-bold mb-2">{book.title}</h2>
+          <h2 className="text-xl font-bold mb-2">{book.name}</h2>
           <h3 className="text-lg font-medium mb-2">{book.author}</h3>
           <p className="text-gray-600 mb-2">{`Price: $${book.price}`}</p>
           <p className="text-gray-600 mb-2">{`Condition: ${book.condition}`}</p>
@@ -24,5 +25,12 @@ export default function Book({ book }) {
       </div>
     </div>
   );
-  }
+}
+
+export async function getStaticProps() {
+  const products = await loadProducts();     
+  const product = products.find(product => product.id === params.id)
+
+  return { props: { product } };
+}
   

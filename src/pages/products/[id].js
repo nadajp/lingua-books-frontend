@@ -1,14 +1,15 @@
 import Image from "next/image";
 
 export default function BookPage ({ book }) {
+  const src = `data:image/jpeg;base64,${book.image}`;
     return (
         <div className="bg-white rounded-lg shadow-md flex flex-col md:flex-row overflow-hidden">
           <div className="md:w-1/3">
-            <Image src={book.imageUrl} alt={`Cover of ${book.title}`} width={200} height={300} />
+            <Image src={src} alt={`Cover of ${book.name}`} width={200} height={300} />
           </div>
           <div className="p-4 md:w-2/3 flex flex-col justify-between">
             <div>
-              <h2 className="text-xl font-bold mb-2">{book.title}</h2>
+              <h2 className="text-xl font-bold mb-2">{book.name}</h2>
               <h3 className="text-lg font-medium mb-2">{book.author}</h3>
               <p className="text-gray-600 mb-2">{`Price: $${book.price}`}</p>
               <p className="text-gray-600 mb-2">{`Condition: ${book.condition}`}</p>

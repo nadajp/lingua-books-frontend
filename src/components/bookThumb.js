@@ -22,7 +22,7 @@ export default function BookThumbnail ({ book, index }) {
         /> 
         </div>
         <div className="relative w-full">
-            <p className="mt-1 flex justify-center font-semibold text-md text-red-400">{book.title}</p>
+            <p className="mt-1 flex justify-center font-semibold text-md text-red-400">{book.name}</p>
             <p className="flex justify-center text-md text-black">{book.author}</p>
                     {/* <p className="text-lg font-semibold">{formatCurrencyString({
                         currency: product.currency,

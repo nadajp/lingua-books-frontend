@@ -4,8 +4,6 @@ import axios from 'axios';
 import FormData from 'form-data';
 import fs from 'fs';
 import Product from './model/product';
-import { GetObjectCommand } from '@aws-sdk/client-s3';
-import s3Client from '../../libs/s3Client';
 
 export const config = {
   api: {
@@ -65,48 +63,4 @@ handler.post(async (req, res) => {
   }
 });
 
-
-// GET /api/products
-handler.get(async (req, res) => {
-  try {
-    // Retrieve the products from the external API
-    const response = await axios.get(API_URL);
-    const products = response.data;
-
-    // Loop through the products and retrieve the images from S3
-    for (const product of products) {
-      if (product.imageUrl) {
-        console.log('key: ' + product.imageUrl)
-
-        const image = await getObjectFromS3("lingua-books-images", product.imageUrl);
-        
-        product.image = image
-      }
-    }
-    res.json(products);
-  } catch (error) {
-    console.error("External API error when retrieving product images from server:", error);
-    res.status(500).json({ error: "Internal server error." });
-  }
-});
-
-async function getObjectFromS3(bucketName, objectKey) {
-  try {
-    const command = new GetObjectCommand({
-      Bucket: bucketName,
-      Key: objectKey,
-    });
-
-    const s3Response = await s3Client.send(command);
-
-    const response = new Response(s3Response.Body);
-    const buffer = await response.buffer();
-    const imageBase64 = buffer.toString('base64');
-
-    return imageBase64
-  } catch (error) {
-    console.error("Error getting object from S3:", error);
-    throw error;
-  }
-}
 export default handler;
