@@ -15,7 +15,7 @@ export default async function loadProducts() {
       }
       return products;
     } catch (error) {
-      console.error('Error loading products:', error);
-      return [];
+        console.error('Error loading products:', error);
+        return [];
     }
   } 

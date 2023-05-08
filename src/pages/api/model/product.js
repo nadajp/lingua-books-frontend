@@ -1,5 +1,6 @@
 export default class Product {
-    constructor(name, price, description, language, author, condition, categoryId, subcategoryId, publisher, publicationYear, isbn, length, format, dimensionLength, dimensionWidth, sellerId) {
+    constructor(id, name, price, description, language, author, condition, categoryId, subcategoryId, publisher, publicationYear, isbn, length, format, dimensionLength, dimensionWidth, sellerId) {
+      this.id = id;
       this.name = name;
       this.price = price;
       this.description = description;
@@ -16,6 +17,9 @@ export default class Product {
       this.dimensionLength = dimensionLength;
       this.dimensionWidth = dimensionWidth;
       this.sellerId = sellerId;
+    }
+    setId(id) {
+      this.id = id;
     }
     
     // additional validation will be added here
