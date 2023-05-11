@@ -1,5 +1,5 @@
 import { GetObjectCommand } from '@aws-sdk/client-s3';
-import s3Client from './s3Client'
+import s3Client from '../libs/s3Client';
 
 export default async function loadProductImage(objectKey) {
     const bucketName = "lingua-books-images"

@@ -1,6 +1,6 @@
-import loadProductImage from "src/libs/loadProductImage";
+import loadProductImage from "./loadProductImage";
 
-const API_URL = 'http://localhost:8080/api/v1/products';
+const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/products`;
 
 export default async function loadProducts() {
     try {

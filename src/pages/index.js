@@ -1,5 +1,5 @@
 import BookGrid from "src/components/bookGrid";
-import loadProducts from 'src/libs/loadProducts'
+import loadProducts from 'src/services/loadProducts'
 
 export default function Home({ products }) {
   return (
@@ -8,7 +8,8 @@ export default function Home({ products }) {
 }
 
 export async function getStaticProps() {
-    const products = await loadProducts();     
+    const products = await loadProducts();  
+
     return { props: { products } };
 }
 

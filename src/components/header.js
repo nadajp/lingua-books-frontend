@@ -1,20 +1,9 @@
 import Link from "next/link";
-import Logo from "./logo";
+import Logo from "./common/logo";
 import MainMenu from "./mainMenu"
 import { ShoppingCartIcon } from '@heroicons/react/24/solid'
 
 export default function Header() {
-     // Sample categories data structure
-    const categories = [
-        {
-        name: 'Fiction',
-        subcategories: ['Classic', 'Mystery', 'Sci-Fi', 'Fantasy', 'Romance'],
-        },
-        {
-        name: 'Non-Fiction',
-        subcategories: ['Biography', 'History', 'Science', 'Self-Help', 'Travel'],
-        },
-    ];
     return (
         <header className="sticky top-0 bg-black z-10 shadow">
           <div className="container mx-auto p-6">
@@ -26,7 +15,7 @@ export default function Header() {
               </Link> 
             </div>
             <div className="mt-1">
-              <MainMenu categories={categories} />
+              <MainMenu />
             </div>
           </div>
         </header>

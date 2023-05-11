@@ -11,7 +11,7 @@ export const config = {
   }
 }
 
-const API_URL = 'http://localhost:8080/api/v1/products';
+const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/products`
 const upload = multer({ dest: '/tmp' });
 const handler = nextConnect();
 handler.use(upload.single('image'));

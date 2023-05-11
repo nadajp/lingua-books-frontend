@@ -1,6 +1,6 @@
-import Image from "next/image";
-import loadProducts from "src/libs/loadProducts";
+import loadProducts from "src/services/loadProducts";
 import Book from "src/components/book";
+import loadProductImage from "src/services/loadProductImage";
 
 export default function BookPage ({ book }) {
     return (
@@ -22,13 +22,18 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const products = await loadProducts();   
-
-  const book = products.find((book) => book.id.toString() === params.id)
+  const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/products`;
+  const res = await fetch(`${API_URL}/${params.id}`);
   
+  let book = await res.json();
+  if (book.imageUrl) {    
+      const image = await loadProductImage(book.imageUrl);          
+      book.image = image
+  }
   return { 
     props: { 
       book,
+      revalidate: 60 * 60 * 24 // 24 hours
     } 
   };
 }

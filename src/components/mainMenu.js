@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import useCategories from '../hooks/useCategories'
 
-const MainMenu = ({ categories }) => {
+export default function MainMenu() {
+  const { categories, isLoading, isError } = useCategories();
   const [expandedCategory, setExpandedCategory] = useState(null);
 
   const handleCategoryMouseOver = (category) => {
@@ -11,12 +13,21 @@ const MainMenu = ({ categories }) => {
     setExpandedCategory(null);
   };
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  // Return early if there was an error loading the categories
+  if (isError) {
+    return <div>Error loading categories.</div>;
+  }
+
   return (
     <nav className="bg-black p-4 text-yellow-200">
       <ul className="flex space-x-4">
         {categories.map((category) => (
             <li
-                key={category.name}
+                key={category.id}
                 className="relative z-10"
             >
             <button
@@ -30,9 +41,9 @@ const MainMenu = ({ categories }) => {
                               onMouseLeave={handleCategoryMouseLeave}>
                 <ul className="space-y-2">
                   {category.subcategories.map((subcategory) => (
-                    <li key={subcategory}>
+                    <li key={subcategory.id}>
                       <a href="#" className="block text-white hover:text-yellow-200">
-                        {subcategory}
+                        {subcategory.name}
                       </a>
                       
                     </li>
@@ -47,4 +58,3 @@ const MainMenu = ({ categories }) => {
   );
 };
 
-export default MainMenu;
