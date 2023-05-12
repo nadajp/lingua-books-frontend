@@ -18,31 +18,55 @@ handler.use(upload.single('image'));
 
 // POST /api/products
 handler.post(async (req, res) => {
-  console.log('Received fields:', req.body);
-  console.log('Received file:', req.file);
 
-  const product = new Product();
-  product.setName(req.body.name);
-  product.setPrice(req.body.price);
-  product.setDescription(req.body.description);
-  product.setLanguage(req.body.language);
-  product.setAuthor(req.body.author);
-  product.setCondition(req.body.condition);
-  product.setCategoryId(req.body.categoryId);
-  product.setSubcategoryId(req.body.subcategoryId);
-  product.setPublisher(req.body.publisher);
-  product.setPublicationYear(req.body.publicationYear);
-  product.setIsbn(req.body.isbn);
-  product.setLength(req.body.length);
-  product.setFormat(req.body.format);
-  product.setDimensionLength(req.body.dimensionLength);
-  product.setDimensionWidth(req.body.dimensionWidth);
-  product.setSellerId(1);
+  // const product = new Product();
+  // product.setName(req.body.name);
+  // product.setPrice(req.body.price);
+  // product.setDescription(req.body.description);
+  // product.setLanguage(req.body.language);
+  // product.setAuthor(req.body.author);
+  // product.setCondition(req.body.condition);
+  // product.setCategoryId(req.body.categoryId);
+  // product.setSubcategoryId(req.body.subcategoryId);
+  // product.setPublisher(req.body.publisher);
+  // product.setPublicationYear(req.body.publicationYear);
+  // product.setIsbn(req.body.isbn);
+  // product.setLength(req.body.length);
+  // product.setFormat(req.body.format);
+  // product.setDimensionLength(req.body.dimensionLength);
+  // product.setDimensionWidth(req.body.dimensionWidth);
+  // product.setSellerId(1);
+ 
+  console.log('language id from request: ' + req.body.language)
+  const languageId = Number(req.body.language);
+  console.log('languageId:', languageId);
+  
+  const product = {
+    name: req.body.name,
+    price: req.body.price,
+    description: req.body.description,
+    language: { id: languageId},
+    author: req.body.author,
+    condition: req.body.condition,
+    categoryId: req.body.categoryId,
+    subcategoryId: req.body.subcategoryId,
+    publisher: req.body.publisher,
+    publicationYear: req.body.publicationYear,
+    isbn: req.body.isbn,
+    length: req.body.length,
+    format: req.body.format,
+    dimensionLength: req.body.dimensionLength,
+    dimensionWidth: req.body.dimensionWidth,
+    sellerId: 1
+  };
 
-  const imagePath = req.file.path;
+  const imagePath = req.file?.path;
   const formData = new FormData();
   
-  formData.append('image', fs.createReadStream(imagePath, { contentType: 'image/jpeg' }));
+  if (imagePath) {
+    formData.append('image', fs.createReadStream(imagePath, { contentType: 'image/jpeg' }));
+  }
+
   formData.append('product', JSON.stringify(product), { contentType: 'application/json' });
 
   try {

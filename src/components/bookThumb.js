@@ -2,7 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function BookThumbnail ({ book, index }) {
-    const src = `data:image/jpeg;base64,${book.image}`;
+    const src = book.image ? `data:image/jpeg;base64,${book.image}` :
+                '/book-cover-placeholder.png'
     return (
     <Link 
         href={`/products/${book.id}`} 
@@ -36,6 +37,9 @@ export default function BookThumbnail ({ book, index }) {
                     Add to Cart
                 </button>
             </div>
+            <p className="flex justify-center text-sm text-gray-500 font-semibold">
+                {book.language.name}
+            </p>
         </div>
     </Link>
     );

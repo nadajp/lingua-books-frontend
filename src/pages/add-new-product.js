@@ -1,20 +1,15 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
-import useCategories from '../hooks/useCategories'
-  
-export default function NewProductForm() {
-    const { categories, isLoading, isError } = useCategories() 
-    
-    if (isLoading) return <div>Loading...</div>;
-    if (isError) return <div>Error loading categories</div>;
+import useFetch from '../hooks/useFetch' 
 
+export default function NewProductForm() {
     const [name, setName] = useState("");
     const [author, setAuthor] = useState("");
     const [price, setPrice] = useState("");
     const [condition, setCondition] = useState("1");
-    const [language, setLanguage] = useState("Croatian");
+    const [language, setLanguage] = useState("");
     const [description, setDescription] = useState("");
-    const [categoryId, setCategoryId] = useState(categories[0].id.toString());
+    const [categoryId, setCategoryId] = useState("");
     const [subcategoryId, setSubcategoryId] = useState("0");
     const [format, setFormat] = useState("paperback");
     const [publisher, setPublisher] = useState("");
@@ -25,6 +20,22 @@ export default function NewProductForm() {
     const [dimensionWidth, setDimensionWidth] = useState("");
     const [image, setImage] = useState(null);
 
+    const { data: categories, isLoading: isLoadingCategories, isError: isErrorCategories } = useFetch('categories');
+    const { data: languages, isLoading: isLoadingLanguages, isError: isErrorLanguages } = useFetch('languages');
+
+    // You need to check whether languages and categories are loaded before setting the initial state
+    useEffect(() => {
+        if (!isLoadingLanguages && languages && languages.length > 0) {
+            setLanguage(languages[0].id.toString());
+        }
+        if (!isLoadingCategories && categories && categories.length > 0) {
+            setCategoryId(categories[0].id.toString());
+        }
+    }, [isLoadingCategories, categories, isLoadingLanguages, languages]);
+
+    if (isLoadingCategories || isLoadingLanguages) return <div>Loading...</div>;
+    if (isErrorCategories || isErrorLanguages) return <div>Error loading form data</div>;
+    
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -116,23 +127,20 @@ export default function NewProductForm() {
                         required />
             </div>
             <div className="mb-4">
-                <label htmlFor="language" className="block text-gray-700 font-bold mb-2">Language*</label>
+                <label htmlFor="language" className="block text-gray-700 font-bold mb-2">
+                    Language*
+                </label>
                 <select id="language" 
-                        value={language} onChange={(e) => setLanguage(e.target.value)}
+                        value={language} 
+                        onChange={(e) => setLanguage(e.target.value)}
                         name="language" 
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        <option value="Croatian">Croatian</option>
-                        <option value="Serbian">Serbian</option>
-                        <option value="Polish">Polish</option>
-                        <option value="Hungarian">Hungarian</option>
-                        <option value="Russian">Russian</option>
-                        <option value="French">French</option>
-                        <option value="Italian">Italian</option>
-                        <option value="Spanish">Spanish</option>
-                        <option value="Portuguese">Portuguese</option>
+                    {languages.map((lang) => (
+                        <option key={lang.id} value={lang.id}>{lang.name}</option>
+                    ))}
                 </select>
             </div>
-        
+
             <div className="mb-4">
                 <label htmlFor="description" className="block text-gray-700 font-bold mb-2">Description</label>
                 <textarea id="description" 

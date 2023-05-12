@@ -1,35 +1,39 @@
 import BookThumbnail from "./bookThumb";
 import React, { useState } from 'react';
 import LanguageFilter from "./languageFilter";
+import useLanguages from '../hooks/useLanguages'
 
 export default function BookGrid({ books }) {
     const [selectedLanguages, setSelectedLanguages] = useState([]);
     const [showMoreLanguages, setShowMoreLanguages] = useState(false);
+    const { languages, isLoading, isError } = useLanguages();
+    
+    if (isLoading) return <div>Loading...</div>;
+    if (isError) return <div>Error loading languages</div>;
   
-    const languages = ['Croatian', 'Serbian', 'Polish', 'Hungarian', 'Russian', 
-    'Ukranian','Bulgarian', 'Czech', 'Slovenian', 'Macedonian']
-
+    console.log(languages, selectedLanguages);
     const onLanguageToggle = (language) => {
-      setSelectedLanguages((prevSelectedLanguages) =>
-        prevSelectedLanguages.includes(language)
-          ? prevSelectedLanguages.filter((l) => l !== language)
-          : [...prevSelectedLanguages, language],
+      setSelectedLanguages(prev => 
+        prev.some(l => l.id === language.id) 
+        ? prev.filter(l => l.id !== language.id) 
+        : [...prev, language]
       );
     };
-  
     const onToggleMoreLanguages = (showMore) => {
       setShowMoreLanguages(showMore);
     };
   
-    const filteredBooks = books.filter((book) =>
-      selectedLanguages.length === 0 || selectedLanguages.includes(book.language),
-    );
+    console.log(selectedLanguages); // Check what's stored in the selectedLanguages state
+    console.log(books[0]?.language); // Check the language property of the first book, if it exists
 
+    const filteredBooks = books.filter((book) =>
+      selectedLanguages.length === 0 || selectedLanguages.map(lang => lang.id).includes(Number(book.language.id)),
+);
     return (
         <div className="container mx-auto px-4 my-5">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <LanguageFilter
+              <LanguageFilter 
                 languages={languages}
                 selectedLanguages={selectedLanguages}
                 onLanguageToggle={onLanguageToggle}

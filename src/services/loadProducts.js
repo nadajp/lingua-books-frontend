@@ -11,6 +11,8 @@ export default async function loadProducts() {
         if (product.imageUrl) {    
           const image = await loadProductImage(product.imageUrl);          
           product.image = image
+        } else {
+          product.image = null;
         }
       }
       return products;

@@ -8,17 +8,17 @@ const LanguageFilter = ({ languages, selectedLanguages, onLanguageToggle, showMo
       <h2 className="text-xl font-semibold mb-4">Languages</h2>
       <div className="space-y-2">
         {displayedLanguages.map((language) => (
-          <div key={language} className="flex items-center">
-            <input
-              type="checkbox"
-              id={language}
-              checked={selectedLanguages.includes(language)}
-              onChange={() => onLanguageToggle(language)}
-              className="form-checkbox h-4 w-4 text-blue-600 rounded"
-            />
-            <label htmlFor={language} className="ml-2 text-gray-700">
-              {language}
-            </label>
+          <div key={language.id} className="flex items-center">
+              <input
+                  type="checkbox"
+                  id={language.id}
+                  checked={selectedLanguages.some(selectedLang => selectedLang.id === language.id)}
+                  onChange={() => onLanguageToggle(language)}
+                  className="form-checkbox h-4 w-4 text-blue-600 rounded"
+              />
+              <label htmlFor={language.id} className="ml-2 text-gray-700">
+                  {language.name}
+              </label>
           </div>
         ))}
         <button
