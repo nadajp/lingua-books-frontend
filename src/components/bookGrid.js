@@ -11,7 +11,6 @@ export default function BookGrid({ books }) {
     if (isLoading) return <div>Loading...</div>;
     if (isError) return <div>Error loading languages</div>;
   
-    console.log(languages, selectedLanguages);
     const onLanguageToggle = (language) => {
       setSelectedLanguages(prev => 
         prev.some(l => l.id === language.id) 
@@ -23,16 +22,12 @@ export default function BookGrid({ books }) {
       setShowMoreLanguages(showMore);
     };
   
-    console.log(selectedLanguages); // Check what's stored in the selectedLanguages state
-    console.log(books[0]?.language); // Check the language property of the first book, if it exists
-
     const filteredBooks = books.filter((book) =>
       selectedLanguages.length === 0 || selectedLanguages.map(lang => lang.id).includes(Number(book.language.id)),
 );
     return (
-        <div className="container mx-auto px-4 my-5">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
+        <div className="flex h-screen mx-auto px-4 my-5">
+            <aside className="w-24 px-8 mx-8">
               <LanguageFilter 
                 languages={languages}
                 selectedLanguages={selectedLanguages}
@@ -40,16 +35,15 @@ export default function BookGrid({ books }) {
                 onToggleMore={onToggleMoreLanguages}
                 showMoreLanguages={showMoreLanguages}
               />
-            </div>
-            <div className="col-span-1 md:col-span-2">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            </aside>
+            <div className="flex-1 mx-10 px-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                 {filteredBooks.map((book, index) => (
                     <BookThumbnail key={book.id} book={book} index={index} />
                 ))}
               </div>
             </div>
           </div>
-        </div>
       );
 }
 

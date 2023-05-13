@@ -4,12 +4,11 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export default async function handler(req, res) {
   console.log('Request method:', req.method);
-  console.log('Request URL:', req.url);
   if (req.method === 'POST') {
 
     const newCategory = req.body;
         
-    const isSubcategory = !!newCategory.parentId;
+    const isSubcategory = !!newCategory.parentCategoryId;
     const endpointUrl = isSubcategory
       ? `${apiUrl}/subcategories`
       : `${apiUrl}/categories`;

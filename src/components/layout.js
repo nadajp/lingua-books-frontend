@@ -7,7 +7,7 @@ export default function AppLayout({ children }) {
       <div className="min-h-screen flex flex-col">
         <Meta />
         <Header />
-        <main className="flex-grow bg-[#f7f7f7]">{children}</main>
+        <main className="flex-grow">{children}</main>
         <Footer />
       </div>
     );

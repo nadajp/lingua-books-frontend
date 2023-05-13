@@ -4,7 +4,7 @@ const LanguageFilter = ({ languages, selectedLanguages, onLanguageToggle, showMo
   const displayedLanguages = showMoreLanguages ? languages : languages.slice(0, 5);
 
   return (
-    <div className="bg-white p-4 rounded shadow">
+    <div>
       <h2 className="text-xl font-semibold mb-4">Languages</h2>
       <div className="space-y-2">
         {displayedLanguages.map((language) => (
