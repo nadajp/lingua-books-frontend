@@ -2,27 +2,19 @@
 import React, { useState, useEffect } from 'react';
 import AddCategoryForm from './AddCategoryForm';
 import Modal from '../common/Modal';
+import fetchCategories from 'src/services/fetchCategories';
 
 export default function CategoriesTable() {
   const [categories, setCategories] = useState([]);
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
-    fetchCategories();
+    getCategories();
   }, []);
 
-  async function fetchCategories() {
-    try {
-      const url = `${apiUrl}/categories`
-      console.log('fetching from ' + url)
-      const response = await fetch(`${apiUrl}/categories`); // URL to the backend API
-      const data = await response.json();
-      console.log('fetched categories' + JSON.stringify(data))
-      setCategories(data);
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-    }
+  async function getCategories() {
+    const categories = await fetchCategories();
+    setCategories(categories);
   }
 
   function renderCategory(category, level = 0) {

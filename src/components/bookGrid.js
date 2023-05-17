@@ -24,9 +24,9 @@ export default function BookGrid({ books }) {
   
     const filteredBooks = books.filter((book) =>
       selectedLanguages.length === 0 || selectedLanguages.map(lang => lang.id).includes(Number(book.language.id)),
-);
+  );
     return (
-        <div className="flex h-screen mx-auto px-4 my-5">
+        <div className="flex grow mx-auto px-4 my-8">
             <aside className="w-24 px-8 mx-8">
               <LanguageFilter 
                 languages={languages}

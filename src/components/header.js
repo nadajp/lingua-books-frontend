@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Logo from "./common/logo";
 import MainMenu from "./mainMenu"
-import { ShoppingCartIcon } from '@heroicons/react/24/solid'
 
-export default function Header() {
+export default function Header({selectedLanguages}) {
+
     return (
         <header className="sticky top-0 bg-black z-10 shadow">
           <div className="container mx-auto p-6">
@@ -15,7 +15,9 @@ export default function Header() {
               </Link> 
             </div>
             <div className="mt-1">
-              <MainMenu />
+              <MainMenu 
+                selectedLanguages={selectedLanguages}
+              />
             </div>
           </div>
         </header>

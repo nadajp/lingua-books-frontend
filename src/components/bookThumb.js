@@ -2,8 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function BookThumbnail ({ book, index }) {
-    const src = book.image ? `data:image/jpeg;base64,${book.image}` :
-                '/book-cover-placeholder.png'
     return (
     <Link 
         href={`/products/${book.id}`} 
@@ -11,8 +9,8 @@ export default function BookThumbnail ({ book, index }) {
     >
         <div className="relative w-full h-64">
         <Image 
-            priority={index === 0} 
-            src={src}
+            priority={index === 0 || book.image.includes('placeholder')} 
+            src={book.image}
             alt={book.name} 
             sizes="100"
             fill

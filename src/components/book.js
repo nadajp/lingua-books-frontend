@@ -1,12 +1,11 @@
 import Image from "next/image";
 
 export default function Book({ book }) {
-  const src = `data:image/jpeg;base64,${book.image}`;
   return (
     <div className="grid grid-cols-2 gap-4 my-5">
         <div className="relative w-72 h-72 sm:w-96 sm:h-96">
           <Image
-              src={src}
+              src={book.image}
               alt={book.name} 
               sizes="100"
               fill

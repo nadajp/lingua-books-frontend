@@ -6,7 +6,7 @@ export default function AppLayout({ children }) {
     return (
       <div className="min-h-screen flex flex-col">
         <Meta />
-        <Header />
+        <Header selectedLanguages={[]} />
         <main className="flex-grow">{children}</main>
         <Footer />
       </div>

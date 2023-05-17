@@ -7,6 +7,15 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
 
     const newCategory = req.body;
+
+    const generateSlug = (name) => {
+      return name
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, "") // Remove special characters
+        .replace(/\s+/g, "-"); // Convert spaces to dashes
+    };
+
+    newCategory.slug = generateSlug(newCategory.name);
         
     const isSubcategory = !!newCategory.parentCategoryId;
     const endpointUrl = isSubcategory

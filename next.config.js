@@ -5,7 +5,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'lingua-books-images.s3.amazonaws.com',
+        hostname: 'lingua-books-images.s3.*.amazonaws.com',
         port: '',
         pathname: '/**',
       },

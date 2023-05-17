@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import useFetch from '../hooks/useFetch' 
 import { useRouter } from 'next/router'
+import { useCategories } from 'src/contexts/CategoryContext'
 
 export default function NewProductForm() {
     const [name, setName] = useState("");
@@ -22,11 +23,12 @@ export default function NewProductForm() {
     const [image, setImage] = useState(null);
 
     const [message, setMessage] = useState('');
-
     const router = useRouter();
 
-    const { data: categories, isLoading: isLoadingCategories, isError: isErrorCategories } = useFetch('categories');
-    const { data: languages, isLoading: isLoadingLanguages, isError: isErrorLanguages } = useFetch('languages');
+    const { data: languages, isLoading: isLoadingLanguages, isError: isErrorLanguages } = useFetch('languages');  
+    const categories = useCategories();
+    const isLoadingCategories = !categories.length;
+    const isErrorCategories = false; // You can handle error states based on your implementation
 
     // You need to check whether languages and categories are loaded before setting the initial state
     useEffect(() => {

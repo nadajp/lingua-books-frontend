@@ -1,23 +1,15 @@
-import { GetObjectCommand } from '@aws-sdk/client-s3';
 import s3Client from '../libs/s3Client';
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { GetObjectCommand } from "@aws-sdk/client-s3";
 
 export default async function loadProductImage(objectKey) {
-    const bucketName = "lingua-books-images"
-    try {
-        const command = new GetObjectCommand({
-        Bucket: bucketName,
-        Key: objectKey,
-        });
+    const params = {
+        Bucket: 'lingua-books-images', 
+        Key: objectKey, 
+        Expires: 60 * 60 // URL expires in 1 hour
+      };
     
-        const s3Response = await s3Client.send(command);
-    
-        const response = new Response(s3Response.Body);
-        const buffer = await response.buffer();
-        const imageBase64 = buffer.toString('base64');
-    
-        return imageBase64
-    } catch (error) {
-        console.error("Error getting object from S3:", error);
-        throw error;
-    }
+      const command = new GetObjectCommand(params);      
+      const url = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
+      return url;
 }

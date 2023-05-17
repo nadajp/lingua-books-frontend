@@ -1,25 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import fetchCategories from 'src/services/fetchCategories';
 
 export default function AddCategoryForm({ onSuccess }) {
   const [categories, setCategories] = useState([]);
   const [name, setName] = useState('');
   const [parentCategoryId, setParentCategoryId] = useState('');
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
-    fetchCategories();
+    getCategories();
   }, []);
 
-  async function fetchCategories() {
-    try {
-      const url = `${apiUrl}/categories`
-      console.log('fetching from ' + url)
-      const response = await fetch(`${apiUrl}/categories`); // backend API
-      const data = await response.json();
-      setCategories(data);
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-    }
+  async function getCategories() {
+      const categories = await fetchCategories();
+      setCategories(categories);
   }
   
   async function handleSubmit(event) {

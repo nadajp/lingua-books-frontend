@@ -8,11 +8,10 @@ export default async function loadProducts() {
       let products = await res.json();
 
       for (const product of products) {
-        if (product.imageUrl) {    
-          const image = await loadProductImage(product.imageUrl);          
-          product.image = image
+        if (product.imageUrl) {                
+          product.image = await loadProductImage(product.imageUrl);    
         } else {
-          product.image = null;
+          product.image = '/book-cover-placeholder.png';
         }
       }
       return products;

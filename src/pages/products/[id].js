@@ -26,9 +26,10 @@ export async function getStaticProps({ params }) {
   const res = await fetch(`${API_URL}/${params.id}`);
   
   let book = await res.json();
-  if (book.imageUrl) {    
-      const image = await loadProductImage(book.imageUrl);          
-      book.image = image
+  if (book.imageUrl) {                
+    book.image = await loadProductImage(book.imageUrl);    
+  } else {
+    book.image = '/book-cover-placeholder.png';
   }
   return { 
     props: { 
