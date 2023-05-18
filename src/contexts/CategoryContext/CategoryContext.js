@@ -1,5 +1,5 @@
 import React,{ createContext, useContext, useEffect, useState } from 'react';
-import fetchCategories from 'src/services/fetchCategories';
+import fetchData from 'src/services/fetchData';
 
 const CategoriesContext = createContext([]);
 
@@ -12,7 +12,7 @@ export function CategoriesProvider({ children }) {
 
   useEffect(() => {
     async function getCategories() {
-      const categories = await fetchCategories();
+      const categories = await fetchData('categories');
       setCategories(categories);
     }
     getCategories();

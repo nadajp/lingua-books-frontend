@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { useCategories } from 'src/contexts/CategoryContext';
+import React, { useState, useContext } from 'react';
+import { useCategories } from 'src/contexts/CategoryContext/CategoryContext';
 import Link from 'next/link';
+import { LanguageContext } from "../../contexts/LanguageContext/LanguageContext";
 
-export default function MainMenu({selectedLanguages}) {
+export default function MainMenu() {
   const categories = useCategories();
-  
+  const { languages, selectedLanguages, updateSelectedLanguages } = useContext(LanguageContext);
+
   const isLoading = !categories.length;
   const isError = false; // You can handle error states based on your implementation
   const [expandedCategory, setExpandedCategory] = useState(null);

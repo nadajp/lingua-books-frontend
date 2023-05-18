@@ -1,9 +1,8 @@
 import Link from "next/link";
-import Logo from "./common/logo";
-import MainMenu from "./mainMenu"
+import Logo from "../common/logo";
+import MainMenu from "../MainMenu/MainMenu";
 
-export default function Header({selectedLanguages}) {
-
+export default function Header() {
     return (
         <header className="sticky top-0 bg-black z-10 shadow">
           <div className="container mx-auto p-6">
@@ -16,7 +15,7 @@ export default function Header({selectedLanguages}) {
             </div>
             <div className="mt-1">
               <MainMenu 
-                selectedLanguages={selectedLanguages}
+                selectedLanguages={[]}
               />
             </div>
           </div>

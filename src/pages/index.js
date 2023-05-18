@@ -1,9 +1,10 @@
-import BookGrid from "src/components/bookGrid";
+import BookGrid from "src/components/BookGrid/BookGrid";
 import loadProducts from 'src/services/loadProducts'
 
 export default function Home({ products }) {
+
   return (
-   <BookGrid books={ products } />
+   <BookGrid books={ products }/>
   )
 }
 

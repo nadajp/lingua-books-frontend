@@ -1,19 +1,18 @@
-import BookGrid from '../components/bookGrid'
+import BookGrid from '../components/BookGrid/BookGrid'
 import loadProducts from 'src/services/loadProducts'
-import fetchCategories from 'src/services/fetchCategories';
+import fetchData from 'src/services/fetchData';
 
 export default function Category({ categorySlug, subcategorySlug, filteredProducts }) {
   return (
     <div>
       <h1>Category: {categorySlug}</h1>
       <h2>Subcategory: {subcategorySlug}</h2>
-      <BookGrid books={filteredProducts} />
+      <BookGrid books={filteredProducts}/>
     </div>
   )
 }
-
 export async function getStaticPaths() {  
-  const categories = await fetchCategories();
+  const categories = await fetchData('categories');
 
     // Generate the paths for all categories and subcategories
     const paths = categories.flatMap((category) => {
@@ -35,7 +34,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({params}) {   
   const products = await loadProducts();  
-  const categories = await fetchCategories();
+  const categories = await fetchData('categories');
 
   const category = params.category[0]
   const subcategory = params.category[1] ? params.category[1] : null;

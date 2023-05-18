@@ -1,8 +1,8 @@
 // components/admin/CategoriesTable.js
 import React, { useState, useEffect } from 'react';
-import AddCategoryForm from './AddCategoryForm';
+import AddCategoryForm from './AddCategoryForm/AddCategoryForm';
 import Modal from '../common/Modal';
-import fetchCategories from 'src/services/fetchCategories';
+import fetchCategories from 'src/services/fetchData';
 
 export default function CategoriesTable() {
   const [categories, setCategories] = useState([]);

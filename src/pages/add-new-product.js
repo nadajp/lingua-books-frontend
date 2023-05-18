@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
-import useFetch from '../hooks/useFetch' 
 import { useRouter } from 'next/router'
-import { useCategories } from 'src/contexts/CategoryContext'
+import { useCategories } from 'src/contexts/CategoryContext/CategoryContext'
+import { LanguageContext } from '../contexts/LanguageContext/LanguageContext'
 
 export default function NewProductForm() {
     const [name, setName] = useState("");
@@ -25,23 +25,21 @@ export default function NewProductForm() {
     const [message, setMessage] = useState('');
     const router = useRouter();
 
-    const { data: languages, isLoading: isLoadingLanguages, isError: isErrorLanguages } = useFetch('languages');  
     const categories = useCategories();
     const isLoadingCategories = !categories.length;
     const isErrorCategories = false; // You can handle error states based on your implementation
 
-    // You need to check whether languages and categories are loaded before setting the initial state
+    const { languages } = useContext(LanguageContext);
+
+    // You need to check whether categories are loaded before setting the initial state
     useEffect(() => {
-        if (!isLoadingLanguages && languages && languages.length > 0) {
-            setLanguage(languages[0].id.toString());
-        }
         if (!isLoadingCategories && categories && categories.length > 0) {
             setCategoryId(categories[0].id.toString());
         }
-    }, [isLoadingCategories, categories, isLoadingLanguages, languages]);
+    }, [isLoadingCategories, categories]);
 
-    if (isLoadingCategories || isLoadingLanguages) return <div>Loading...</div>;
-    if (isErrorCategories || isErrorLanguages) return <div>Error loading form data</div>;
+    if (isLoadingCategories) return <div>Loading...</div>;
+    if (isErrorCategories) return <div>Error loading form data</div>;
     
     const handleSubmit = async (event) => {
         event.preventDefault();

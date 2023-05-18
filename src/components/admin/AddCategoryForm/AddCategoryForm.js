@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import fetchCategories from 'src/services/fetchCategories';
+import fetchCategories from 'src/services/fetchData';
 
 export default function AddCategoryForm({ onSuccess }) {
   const [categories, setCategories] = useState([]);

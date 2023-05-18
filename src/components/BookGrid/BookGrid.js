@@ -1,10 +1,13 @@
-import BookThumbnail from "./bookThumb";
-import React, { useState } from 'react';
-import LanguageFilter from "./languageFilter";
-import useLanguages from '../hooks/useLanguages'
+import BookThumbnail from "../BookThumbnail/BookThumbnail";
+import React, { useState, useContext } from 'react';
+import LanguageFilter from "../LanguageFilter/LanguageFilter";
+import useLanguages from '../../hooks/useLanguages'
+import Link from "next/link";
+import { LanguageContext } from "../../contexts/LanguageContext/LanguageContext";
 
 export default function BookGrid({ books }) {
-    const [selectedLanguages, setSelectedLanguages] = useState([]);
+    const { selectedLanguages, updateSelectedLanguages } = useContext(LanguageContext);
+
     const [showMoreLanguages, setShowMoreLanguages] = useState(false);
     const { languages, isLoading, isError } = useLanguages();
     
@@ -12,16 +15,23 @@ export default function BookGrid({ books }) {
     if (isError) return <div>Error loading languages</div>;
   
     const onLanguageToggle = (language) => {
-      setSelectedLanguages(prev => 
+      const updatedLanguages = (prev => 
         prev.some(l => l.id === language.id) 
         ? prev.filter(l => l.id !== language.id) 
         : [...prev, language]
       );
+      updateSelectedLanguages(updatedLanguages);
     };
+    
     const onToggleMoreLanguages = (showMore) => {
       setShowMoreLanguages(showMore);
     };
   
+    const generateQueryString = () => {
+      const languages = selectedLanguages.map((lang) => lang.id);
+      return languages.length > 0 ? `languages=${languages.join(',')}` : '';
+    };
+
     const filteredBooks = books.filter((book) =>
       selectedLanguages.length === 0 || selectedLanguages.map(lang => lang.id).includes(Number(book.language.id)),
   );
@@ -37,6 +47,9 @@ export default function BookGrid({ books }) {
               />
             </aside>
             <div className="flex-1 mx-10 px-10">
+                  <Link href={{ pathname: '/', query: { languages: generateQueryString()} }}>
+                Go back to Home
+            </Link>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                 {filteredBooks.map((book, index) => (
                     <BookThumbnail key={book.id} book={book} index={index} />
