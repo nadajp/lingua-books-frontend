@@ -3,10 +3,10 @@ import Link from "next/link";
 
 export default function BookThumbnail ({ book, index }) {
     return (
-    <Link 
+    <Link
         href={`/products/${book.id}`} 
         className="group overflow-hidden"
-    >
+        >
         <div className="relative w-full h-64">
         <Image 
             priority={index === 0 || book.image.includes('placeholder')} 
