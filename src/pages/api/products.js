@@ -3,7 +3,6 @@ import multer from 'multer';
 import axios from 'axios';
 import FormData from 'form-data';
 import fs from 'fs';
-import Product from './model/product';
 
 export const config = {
   api: {
