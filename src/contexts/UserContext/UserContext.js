@@ -1,22 +1,24 @@
-import { createContext, useContext } from 'react';
-import useFetch from '../../hooks/useFetch';
+import React, { createContext, useContext, useState } from 'react';
 
-// Create a user context
-const UserContext = createContext();
+// Create a UserContext
+export const UserContext = createContext();
 
-// User context provider
+// Create a UserProvider component
 export const UserProvider = ({ children }) => {
-  // Fetch user data using SWR
-  const { userData: data, isLoading, error } = useFetch('users'); // Adjust the API endpoint
+  const [user, setUser] = useState(null);
 
   return (
-    <UserContext.Provider value={{ userData, isLoading, error }}>
+    <UserContext.Provider value={{ user, setUser }}>
       {children}
     </UserContext.Provider>
   );
 };
 
-// Custom hook to access user context
+// Custom hook to use the UserContext
 export const useUser = () => {
-  return useContext(UserContext);
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error("useUser must be used within a UserProvider");
+  }
+  return context;
 };
