@@ -14,8 +14,8 @@ export default async function handler(req, res) {
 
     console.log('redirectUri inside token.js:' + redirectUri);
     const auth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
-const bod = `grant_type=${grantType}&code=${code}&redirect_uri=${redirectUri}`;
-console.log('bod inside token.js:' + bod);
+    const bod = `grant_type=${grantType}&code=${code}&redirect_uri=${redirectUri}`;
+    console.log('bod inside token.js:' + bod);
     console.log('calling token endpoint: '  + tokenEndpoint)
     const tokenRes = await fetch(tokenEndpoint, {
         method: 'POST',
