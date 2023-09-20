@@ -1,5 +1,5 @@
 import React,{ createContext, useContext, useEffect, useState } from 'react';
-import fetchData from 'src/services/fetchData';
+import fetchData from '../services/fetchData';
 
 const CategoriesContext = createContext([]);
 

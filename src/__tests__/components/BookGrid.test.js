@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { LanguageContext } from '../../contexts/LanguageContext/LanguageContext'
-import BookGrid from './BookGrid';
+import { LanguageContext } from '../../contexts/LanguageContext'
+import BookGrid from '../../components/BookGrid';
 
 describe('BookGrid', () => {
    

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
-import { useCategories } from 'src/contexts/CategoryContext/CategoryContext';
+import { useCategories } from 'src/contexts/CategoryContext';
 import Link from 'next/link';
-import { LanguageContext } from "../../contexts/LanguageContext/LanguageContext";
+import { LanguageContext } from "../../contexts/LanguageContext";
 
 export default function MainMenu() {
   const categories = useCategories();

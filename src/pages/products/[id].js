@@ -1,5 +1,5 @@
 import loadProducts from "src/services/loadProducts";
-import Book from "src/components/Book/Book";
+import Book from "src/components/Book";
 import loadProductImage from "src/services/loadProductImage";
 
 export default function BookPage ({ book }) {
