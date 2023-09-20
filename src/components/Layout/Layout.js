@@ -1,5 +1,5 @@
 import Meta from '../meta'
-import Header from '../Header/Header'
+import Header from '../Header'
 import Footer from '../common/footer'
 
 export default function AppLayout({ children }) {

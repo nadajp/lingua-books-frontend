@@ -1,8 +1,8 @@
-import BookThumbnail from "../BookThumbnail/BookThumbnail";
+import BookThumbnail from "./BookThumbnail";
 import React, { useState, useContext } from 'react';
-import LanguageFilter from "../LanguageFilter/LanguageFilter";
+import LanguageFilter from "./LanguageFilter/LanguageFilter";
 import Link from "next/link";
-import { LanguageContext } from "../../contexts/LanguageContext/LanguageContext";
+import { LanguageContext } from "../contexts/LanguageContext";
 
 export default function BookGrid({ books }) {
     const { languages, selectedLanguages, updateSelectedLanguages } = useContext(LanguageContext);

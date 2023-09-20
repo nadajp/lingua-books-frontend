@@ -1,6 +1,6 @@
 import React from 'react';
 
-function LoginPage() {
+export default function LoginPage() {
 
    function openIdLogin() {
     fetch('/api/openid-login').then(res => res.json()).then(data => {
@@ -14,7 +14,4 @@ function LoginPage() {
     </div>
   );
 }
-
-export default LoginPage;
-
 

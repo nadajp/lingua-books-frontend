@@ -1,9 +1,9 @@
 import Link from "next/link";
-import Logo from "../common/logo";
-import MainMenu from "../MainMenu/MainMenu";
+import Logo from "./common/logo";
+import MainMenu from "./Menus/MainMenu";
 import { useRouter } from 'next/navigation';
 import { useContext } from 'react';
-import { UserContext } from '../../contexts/UserContext/UserContext';
+import { UserContext } from '../contexts/UserContext';
 
 export default function Header() {
   // const { isLoggedIn, isSeller } = useContext(UserContext);

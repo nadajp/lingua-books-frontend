@@ -1,6 +1,6 @@
 import { render, fireEvent } from "@testing-library/react";
 import React from "react";
-import { LanguageContext, LanguageProvider } from "./LanguageContext";
+import { LanguageContext, LanguageProvider } from "../../contexts/LanguageContext";
 
 describe("LanguageProvider", () => {
   test("renders children", () => {

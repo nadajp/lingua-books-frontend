@@ -1,4 +1,4 @@
-import BookGrid from '../components/BookGrid/BookGrid'
+import BookGrid from '../components/BookGrid'
 import loadProducts from 'src/services/loadProducts'
 import fetchData from 'src/services/fetchData';
 

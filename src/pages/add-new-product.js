@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import { useCategories } from 'src/contexts/CategoryContext/CategoryContext'
-import { LanguageContext } from '../contexts/LanguageContext/LanguageContext'
+import { useCategories } from 'src/contexts/CategoryContext'
+import { LanguageContext } from '../contexts/LanguageContext'
 
 export default function NewProductForm() {
     const [name, setName] = useState("");
