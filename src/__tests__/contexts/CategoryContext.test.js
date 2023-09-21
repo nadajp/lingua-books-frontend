@@ -4,7 +4,7 @@ import fetchData from '../../services/fetchData';
 import { CategoriesProvider, useCategories } from '../../contexts/CategoryContext';
 
 jest.mock('../../services/fetchData', () => ({
-  __esModule: true, // this property makes it work
+  __esModule: true, 
   default: jest.fn(),
 }));
 

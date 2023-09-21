@@ -3,7 +3,6 @@ import { render, screen } from '@testing-library/react';
 
 describe('Book', () => {
 
-    // Renders book image, name, author, price, condition, publisher, year, format, length, and language
     it('should render all book details when book object is provided', () => {
       // Arrange
       const book = {
@@ -19,10 +18,8 @@ describe('Book', () => {
         image: '/book-image.jpg'
       };
 
-      // Act
       render(<Book book={book} />);
 
-      // Assert
       expect(screen.getByAltText('Book Name')).toBeInTheDocument();
       expect(screen.getByText('Book Name')).toBeInTheDocument();
       expect(screen.getByText('Author Name')).toBeInTheDocument();
@@ -36,9 +33,7 @@ describe('Book', () => {
       expect(screen.getByRole('button', { name: 'Add to Cart' })).toBeInTheDocument();
     });
 
-    // Displays 'Add to Cart' button
     it('should display "Add to Cart" button', () => {
-      // Arrange
       const book = {
         name: 'Book Name',
         author: 'Author Name',
@@ -52,14 +47,11 @@ describe('Book', () => {
         image: '/book-image.jpg'
       };
 
-      // Act
       render(<Book book={book} />);
 
-      // Assert
       expect(screen.getByRole('button', { name: 'Add to Cart' })).toBeInTheDocument();
     });
 
-    // Image is responsive and fits container
     it('should render responsive image that fits container', () => {
       // Arrange
       const book = {
@@ -75,10 +67,8 @@ describe('Book', () => {
         image: '/book-image.jpg'
       };
 
-      // Act
       render(<Book book={book} />);
 
-      // Assert
       const image = screen.getByAltText('Book Name');
       expect(image).toBeInTheDocument();
       expect(image).toHaveStyle({ objectFit: 'contain' });
