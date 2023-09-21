@@ -1,16 +1,16 @@
 import '@testing-library/jest-dom'
 import { render, screen, fireEvent } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { useRouter } from 'next/router';
 import BookThumbnail from '../../components/BookThumbnail';
 
-jest.mock('next/router', () => ({
-    useRouter: jest.fn(),
-  }));
+jest.mock('next/router');
+
+jest.mock('next/link', () => {
+  return ({ children }) => children;
+});
 
 describe('BookThumbnail', () => {
 
-    // Renders a book thumbnail with image, name, author, price, language and add to cart button
     it('should render a book thumbnail with all the necessary information', () => {
       // Arrange
       // Mock book data
@@ -38,10 +38,7 @@ describe('BookThumbnail', () => {
       expect(screen.getByText('English')).toBeInTheDocument();
     });
 
-    // Clicking on the thumbnail navigates to the book's product page
     it('should navigate to the book\'s product page when the thumbnail is clicked', () => {
-        // Arrange
-        // Mock book data
         const book = {
           id: '1',
           name: 'Book Name',
@@ -52,22 +49,17 @@ describe('BookThumbnail', () => {
             name: 'English'
           }
         };
-    
-        // Mock next/link component
-        jest.mock('next/link', () => ({ children }) => children);
-    
-        // Mock next/router component
-        const useRouter = jest.spyOn(require('next/router'), 'useRouter');
-        useRouter.mockImplementation(() => ({
-          push: jest.fn()
-        }));
+                
+      const mockPush = jest.fn();
+      
+      useRouter.mockImplementation(() => ({
+        push: mockPush,
+      }));
 
-           // Act
-      render(<BookThumbnail book={book} index={0} />);
-      fireEvent.click(screen.getByAltText('Book Name'));
-  
-      // Assert
-      // Check if the router push function is called with the correct path
-      expect(useRouter().push).toHaveBeenCalledWith('/products/1');
+    render(<BookThumbnail book={book} index={0} />);
+
+    fireEvent.click(screen.getByAltText('Book Name').closest('div'));
+
+    expect(mockPush).toHaveBeenCalledWith('/products/1');
     });
 })

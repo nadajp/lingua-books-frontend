@@ -89,14 +89,10 @@ const mockBooks = [
       </LanguageContext.Provider>
     );
 
-      // Simulate a language toggle
     fireEvent.click(screen.getByRole('checkbox', {name: selectedLanguage.name})); // Adjust the selector based on your implementation
-    //fireEvent.click(screen.getByRole('checkbox', {name: 'Serbian'})); // Adjust the selector based on your implementation
 
-    // Assert that the updateSelectedLanguages function has been called with the correct parameters
     expect(value.updateSelectedLanguages).toHaveBeenCalledWith((expect.any(Function)));
     expect(value.updateSelectedLanguages).toHaveBeenCalledTimes(1);
-      // Custom matcher function to verify the behavior of the updatedLanguages function
     const updatedLanguagesFn = value.updateSelectedLanguages.mock.calls[0][0];
     const updatedSelectedLanguages = updatedLanguagesFn([selectedLanguage]);
 
@@ -118,15 +114,12 @@ const mockBooks = [
       </LanguageContext.Provider>
     );
   
-    // Simulate language toggle
     fireEvent.click(screen.getByRole('checkbox', { name: 'Polish' }));
   
-    // Assert that the updateSelectedLanguages function has been called with the correct parameters
     expect(mockSetSelectedLanguages).toHaveBeenCalledWith(expect.any(Function));
     expect(mockSetSelectedLanguages).toHaveBeenCalledTimes(1);
     const updatedLanguages = mockSetSelectedLanguages.mock.calls[0][0];
 
-    // Assert the length of the updated selectedLanguages array
     expect(updatedLanguages.length).toBe(1);
   });
   
