@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
-import axios from 'axios'; // Import axios
+import axios from 'axios';
 
 export default function NewSellerForm() {
   const [firstName, setFirstName] = useState('');

@@ -3,7 +3,6 @@ import multer from 'multer';
 import axios from 'axios';
 import FormData from 'form-data';
 import fs from 'fs';
-import { getAccessToken, withApiAuthRequired } from '@auth0/nextjs-auth0';
 
 export const config = {
   api: {
@@ -16,11 +15,8 @@ const upload = multer({ dest: '/tmp' });
 const handler = nextConnect();
 handler.use(upload.single('image'));
 
-// POST /api/products
 handler.post(async (req, res) => {
-  console.log('language id from request: ' + req.body.language)
   const languageId = Number(req.body.language);
-  console.log('languageId:', languageId);
   
   const product = {
     name: req.body.name,
