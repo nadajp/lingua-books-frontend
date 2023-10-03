@@ -3,6 +3,7 @@ import multer from 'multer';
 import axios from 'axios';
 import FormData from 'form-data';
 import fs from 'fs';
+import { getAccessToken, withApiAuthRequired } from '@auth0/nextjs-auth0';
 
 export const config = {
   api: {

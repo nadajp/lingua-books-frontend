@@ -1,12 +1,7 @@
 import Logo from "./common/logo";
 import MainMenu from "./Menus/MainMenu";
-import { useRouter } from 'next/navigation';
 import Profile from "./Profile";
 export default function Header() {
-
-  const isSeller = false;
-
-  const router = useRouter();
 
     return (
         <header className="sticky top-0 bg-black z-10 shadow">

@@ -17,6 +17,11 @@ export default function Profile() {
                     Logout
                 </a>
             </div>
+            <div>
+                <a href="/new-seller" className="text-white end-0">
+                    Become a Seller
+                </a>
+            </div>
         </div>
     );
 }
