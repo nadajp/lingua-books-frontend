@@ -6,8 +6,8 @@ export default handleAuth({
           await handleLogin(req, res, {
             authorizationParams: {
               audience: 'https://lingua-books.com', 
-              // Add the `offline_access` scope to also get a Refresh Token
-              scope: 'openid profile email offline_access' 
+              // Add the `offline_access` scope to also get a Refresh Token 
+              scope: 'openid profile offline_access' 
             }
           });
         } catch (error) {
