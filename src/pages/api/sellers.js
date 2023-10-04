@@ -37,8 +37,6 @@ export default async function handler (req, res) {
         authUser: user.sub
       };
 
-      console.log('sellerData: ', sellerData);
-
       const config = {
         headers: { 'content-type': 'application/json', Authorization: `Bearer ${accessToken}` }
      };
@@ -50,16 +48,16 @@ export default async function handler (req, res) {
       );
 
       if (response.status === 201) {
-        //upgradeRoleToSeller(user);
-        return res.status(201).json({ message: 'Seller registration successful.' });
+          upgradeRoleToSeller(user);
+          return res.status(201).json({ message: 'Seller registration successful.' });
       } else if (response.status === 401) {
-        return res.status(401).json({ error: 'You must be logged in to become a seller.' });
+          return res.status(401).json({ error: 'You must be logged in to become a seller.' });
       } else {
-        return res.status(response.status).json({ error: 'Seller registration failed.' });
+          return res.status(response.status).json({ error: 'Seller registration failed.' });
       }
     } catch (error) {
-      console.error('Error:', error);
-      return res.status(500).json({ error: 'Internal server error.' });
+        console.error('Error:', error);
+        return res.status(500).json({ error: 'Internal server error.' });
     }
 }
  
@@ -71,30 +69,16 @@ function upgradeRoleToSeller(user) {
     clientSecret: process.env.AUTH0_CLIENT_SECRET,
   });
 
-  let data = JSON.stringify({
-    "roles": [
-      "seller"
-    ]
-  });
-   
-  const url = `$https://login.auth0.com/api/v2/users/:{user.sub}/roles`;
-  console.log(url);
+  const params =  { id : user.sub} ;
+  const data = { "roles" : [process.env.ROLE_SELLER]};
 
-  let config = {
-    method: 'post',
-    maxBodyLength: Infinity,
-    url,
-    headers: { 
-      'Content-Type': 'application/json'
-    },
-    data : data
-  };
+  console.log('data: ', data);
 
-  axios.request(config)
-  .then((response) => {
-    console.log(JSON.stringify(response.data));
-  })
-  .catch((error) => {
-    console.log(error);
+  management.users.assignRoles(params, data, (err, user) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('user role assigned');
+    }
   });
 }

@@ -36,7 +36,7 @@ export default function NewSellerForm() {
       setAddressState('');
       setAddressZip('');
       setPhoneNumber('');
-      setCountry('');
+      setAddressCountry('');
     } catch (error) {
       console.error('Error registering seller', error);
     }
