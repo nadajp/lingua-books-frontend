@@ -62,7 +62,6 @@ export default async function handler (req, res) {
 }
  
 function upgradeRoleToSeller(user) {
-
   var management = new ManagementClient({
     domain: process.env.AUTH0_DOMAIN,
     clientId: process.env.AUTH0_CLIENT_ID,
@@ -72,8 +71,6 @@ function upgradeRoleToSeller(user) {
   const params =  { id : user.sub} ;
   const data = { "roles" : [process.env.ROLE_SELLER]};
 
-  console.log('data: ', data);
-
   management.users.assignRoles(params, data, (err, user) => {
     if (err) {
       console.log(err);
@@ -81,4 +78,13 @@ function upgradeRoleToSeller(user) {
       console.log('user role assigned');
     }
   });
+
+  const roles = management.users.getRoles(params, (err, roles) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('user roles: ', roles);
+    }
+  });
+  console.log('roles: ', roles);
 }
