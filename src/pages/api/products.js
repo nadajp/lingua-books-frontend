@@ -3,6 +3,8 @@ import multer from 'multer';
 import axios from 'axios';
 import FormData from 'form-data';
 import fs from 'fs';
+import { getAccessToken } from '@auth0/nextjs-auth0';
+import { getSession } from '@auth0/nextjs-auth0';
 
 export const config = {
   api: {
@@ -44,9 +46,15 @@ handler.post(async (req, res) => {
     formData.append('image', fs.createReadStream(imagePath, { contentType: 'image/jpeg' }));
   }
   formData.append('product', JSON.stringify(product), { contentType: 'application/json' });
+
+  
   try {
+    const { accessToken } = await getAccessToken(req, res);
+    console.log('accessToken: ', accessToken);
+    const { user } = await getSession(req, res);
+
     const headers = {
-      'Content-Type': 'multipart/form-data'
+      'Content-Type': 'multipart/form-data', Authorization: `Bearer ${accessToken}` 
     }
 
     const response = await axios.post(API_URL, formData, { headers });
@@ -57,7 +65,6 @@ handler.post(async (req, res) => {
       console.error('External API error:', error);
       res.status(500).json({ error: 'Internal server error.' });
   } finally {
-      // Delete the temporary file from the file system
       fs.unlinkSync(imagePath);
   }
 });
