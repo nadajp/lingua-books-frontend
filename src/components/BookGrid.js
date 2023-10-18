@@ -6,7 +6,6 @@ import { LanguageContext } from "../contexts/LanguageContext";
 
 export default function BookGrid({ books }) {
     const { languages, selectedLanguages, updateSelectedLanguages } = useContext(LanguageContext);
-    console.log('languages', languages)
     const [showMoreLanguages, setShowMoreLanguages] = useState(false);
   
     const onLanguageToggle = (language) => {

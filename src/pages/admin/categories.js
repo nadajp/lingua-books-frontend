@@ -1,5 +1,5 @@
-import CategoriesTable from 'src/components/admin/CategoriesTable';
-import AdminLayout from '../../../components/admin/AdminLayout';
+import CategoriesTable from '../../components/admin/Categories/CategoriesTable';
+import AdminLayout from '../../components/admin/AdminLayout';   
 
 function CategoriesPage() {
   return (

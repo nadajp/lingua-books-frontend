@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
-import axios from 'axios'; // Import axios
+import axios from 'axios';
 
 export default function NewSellerForm() {
   const [firstName, setFirstName] = useState('');
@@ -15,7 +15,6 @@ export default function NewSellerForm() {
   const handleSubmit = async(e) => {
     e.preventDefault();
 
-    // Create a seller object with the form data
     const sellerData = {
       firstName,
       lastName,
@@ -27,26 +26,21 @@ export default function NewSellerForm() {
       phoneNumber,
     };
     try {
-      // Send a POST request to the server with the sellerData
       const response = await axios.post('/api/sellers', sellerData);
-
-      // Handle the response, e.g., show a success message or redirect
       console.log('Seller registration successful', response.data);
 
-    // Reset form fields
-    setFirstName('');
-    setLastName('');
-    setAddressStreet('');
-    setAddressCity('');
-    setAddressState('');
-    setAddressZip('');
-    setPhoneNumber('');
-    setCountry('');
-  } catch (error) {
-    // Handle errors, e.g., show an error message
-    console.error('Error registering seller', error);
-  }
-};
+      setFirstName('');
+      setLastName('');
+      setAddressStreet('');
+      setAddressCity('');
+      setAddressState('');
+      setAddressZip('');
+      setPhoneNumber('');
+      setAddressCountry('');
+    } catch (error) {
+      console.error('Error registering seller', error);
+    }
+  };
 
   return (
     <div>

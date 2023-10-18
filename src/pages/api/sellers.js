@@ -1,9 +1,15 @@
 import axios from 'axios';
+import { getAccessToken } from '@auth0/nextjs-auth0';
+import { getSession } from '@auth0/nextjs-auth0';
+import { ManagementClient } from 'auth0';
 
-export default async function handler(req, res) {
-  if (req.method === 'POST') {
+export default async function handler (req, res) {
     try {
-      // Extract data from the request body
+      const { accessToken } = await getAccessToken(req, res);
+      //console.log('accessToken: ', accessToken);
+      const { user } = await getSession(req, res);
+      //console.log('user: ', user);
+
       const {
         firstName,
         lastName,
@@ -16,9 +22,8 @@ export default async function handler(req, res) {
         phoneNumber,
       } = req.body;
 
-      // Validate the data (you can add your validation logic here)
+      // validation logic here
 
-      // Create a seller object to send to the Java backend
       const sellerData = {
         firstName,
         lastName,
@@ -29,29 +34,57 @@ export default async function handler(req, res) {
         addressZip,
         addressCountry,
         phoneNumber,
+        authUser: user.sub
       };
 
-      // Make a POST request to your Java backend API
+      const config = {
+        headers: { 'content-type': 'application/json', Authorization: `Bearer ${accessToken}` }
+     };
+
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/sellers`,
-        sellerData
+        sellerData,
+        config
       );
 
-      // Check if the response from the Java backend is successful
       if (response.status === 201) {
-        // Successful response
-        return res.status(201).json({ message: 'Seller registration successful.' });
+          upgradeRoleToSeller(user);
+          return res.status(201).json({ message: 'Seller registration successful.' });
+      } else if (response.status === 401) {
+          return res.status(401).json({ error: 'You must be logged in to become a seller.' });
       } else {
-        // Handle other response statuses as needed
-        return res.status(response.status).json({ error: 'Seller registration failed.' });
+          return res.status(response.status).json({ error: 'Seller registration failed.' });
       }
     } catch (error) {
-      // Handle errors
-      console.error('Error:', error);
-      return res.status(500).json({ error: 'Internal server error.' });
+        console.error('Error:', error);
+        return res.status(500).json({ error: 'Internal server error.' });
     }
-  } else {
-    // Handle other HTTP methods if needed
-    return res.status(405).end();
-  }
+}
+ 
+function upgradeRoleToSeller(user) {
+  var management = new ManagementClient({
+    domain: process.env.AUTH0_DOMAIN,
+    clientId: process.env.AUTH0_CLIENT_ID,
+    clientSecret: process.env.AUTH0_CLIENT_SECRET,
+  });
+
+  const params =  { id : user.sub} ;
+  const data = { "roles" : [process.env.ROLE_SELLER]};
+
+  management.users.assignRoles(params, data, (err, user) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('user role assigned');
+    }
+  });
+
+  const roles = management.users.getRoles(params, (err, roles) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('user roles: ', roles);
+    }
+  });
+  console.log('roles: ', roles);
 }
