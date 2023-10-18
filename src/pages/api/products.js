@@ -4,7 +4,6 @@ import axios from 'axios';
 import FormData from 'form-data';
 import fs from 'fs';
 import { getAccessToken } from '@auth0/nextjs-auth0';
-import { getSession } from '@auth0/nextjs-auth0';
 
 export const config = {
   api: {
@@ -47,11 +46,9 @@ handler.post(async (req, res) => {
   }
   formData.append('product', JSON.stringify(product), { contentType: 'application/json' });
 
-  
   try {
     const { accessToken } = await getAccessToken(req, res);
     console.log('accessToken: ', accessToken);
-    const { user } = await getSession(req, res);
 
     const headers = {
       'Content-Type': 'multipart/form-data', Authorization: `Bearer ${accessToken}` 

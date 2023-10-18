@@ -10,7 +10,7 @@ export default function Profile() {
   
     if (!user) return (
         <a href="/api/auth/login" className="text-white hover:text-yellow-200">
-            Login
+            Login/Register
         </a>
         );
     if (user) {
