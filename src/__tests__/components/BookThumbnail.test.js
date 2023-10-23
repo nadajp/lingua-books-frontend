@@ -1,10 +1,6 @@
 import '@testing-library/jest-dom'
 import { render, screen, fireEvent } from '@testing-library/react';
-import { useRouter } from 'next/router';
 import BookThumbnail from '../../components/BookThumbnail';
-
-jest.mock('next/router');
-//jest.mock('next/link', () => ({ children }) => children);
 
 describe('BookThumbnail', () => {
 
@@ -30,7 +26,7 @@ describe('BookThumbnail', () => {
       expect(screen.getByText('English')).toBeInTheDocument();
     });
 
-    it('should navigate to the book\'s product page when the thumbnail is clicked', () => {
+    it('should link to the book\'s product page', () => {
         const book = {
           id: '1',
           name: 'Book Name',
@@ -42,14 +38,10 @@ describe('BookThumbnail', () => {
           }
         };
                 
-        const mockPush = jest.fn();
-        useRouter(()=>({
-          push: mockPush
-        }));
-
         render(<BookThumbnail book={book} index={0} />);
-        fireEvent.click(screen.getByTestId('book-link'));
 
-        expect(mockPush).toHaveBeenCalledWith('/products/1');
+        const linkElement = screen.getByTestId('book-link');
+        expect(linkElement).toHaveAttribute('href', '/products/1');
+
     });
 })
