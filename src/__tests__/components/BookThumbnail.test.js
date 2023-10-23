@@ -4,16 +4,11 @@ import { useRouter } from 'next/router';
 import BookThumbnail from '../../components/BookThumbnail';
 
 jest.mock('next/router');
-
-jest.mock('next/link', () => {
-  return ({ children }) => children;
-});
+//jest.mock('next/link', () => ({ children }) => children);
 
 describe('BookThumbnail', () => {
 
     it('should render a book thumbnail with all the necessary information', () => {
-      // Arrange
-      // Mock book data
       const book = {
         id: '1',
         name: 'Book Name',
@@ -24,12 +19,9 @@ describe('BookThumbnail', () => {
           name: 'English'
         }
       };
-  
-      // Act
+
       render(<BookThumbnail book={book} index={0} />);
   
-      // Assert
-      // Check if all the necessary information is rendered
       expect(screen.getByAltText('Book Name')).toBeInTheDocument();
       expect(screen.getByText('Book Name')).toBeInTheDocument();
       expect(screen.getByText('Author Name')).toBeInTheDocument();
@@ -50,16 +42,14 @@ describe('BookThumbnail', () => {
           }
         };
                 
-      const mockPush = jest.fn();
-      
-      useRouter.mockImplementation(() => ({
-        push: mockPush,
-      }));
+        const mockPush = jest.fn();
+        useRouter(()=>({
+          push: mockPush
+        }));
 
-    render(<BookThumbnail book={book} index={0} />);
+        render(<BookThumbnail book={book} index={0} />);
+        fireEvent.click(screen.getByTestId('book-link'));
 
-    fireEvent.click(screen.getByAltText('Book Name').closest('div'));
-
-    expect(mockPush).toHaveBeenCalledWith('/products/1');
+        expect(mockPush).toHaveBeenCalledWith('/products/1');
     });
 })

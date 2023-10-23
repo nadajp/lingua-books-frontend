@@ -15,7 +15,7 @@ export const LanguageContext = React.createContext({
 });
 
 export const LanguageProvider = ({ children }) => (
-  <LanguageContext.Provider value={{ languages: [], selectedLanguages: [], updateSelectedLanguages: jest.fn() }}>
+  <LanguageContext.Provider value={{ languages: mockLanguages, selectedLanguages: mockSelectedLanguages, updateSelectedLanguages: jest.fn() }}>
     {children}
   </LanguageContext.Provider>
 );

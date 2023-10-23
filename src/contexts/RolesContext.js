@@ -21,12 +21,11 @@ const RolesProvider = ({ user, children }) => {
         setIsSeller(rolesData.some(item => item.name === "seller"));
         setIsAdmin(rolesData.some(item => item.name === "admin"));
       }).catch(() => {
-        // Handle any errors as needed.
       }).finally(() => {
-        setIsLoading(false); // set loading to false in either case
+        setIsLoading(false); 
       });
     } else {
-      setIsLoading(false); // set loading to false if user is not defined
+      setIsLoading(false); 
     }
   }, [user]);
 

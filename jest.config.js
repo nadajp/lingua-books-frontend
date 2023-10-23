@@ -15,10 +15,10 @@ const config = {
   transform: {
     '^.+\\.[t|j]sx?$': 'babel-jest',
   },
-  
+  collectCoverage: true,
   transformIgnorePatterns: [
     "node_modules/(?!(jose)/)"
-  ]  
+  ] 
 };
 
 module.exports = createJestConfig(config);

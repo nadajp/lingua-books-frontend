@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function BookThumbnail ({ book, index }) {
     return (
-    <Link
+    <Link data-testid="book-link"
         href={`/products/${book.id}`} 
         className="group overflow-hidden"
         >

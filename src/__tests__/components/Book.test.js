@@ -4,7 +4,6 @@ import { render, screen } from '@testing-library/react';
 describe('Book', () => {
 
     it('should render all book details when book object is provided', () => {
-      // Arrange
       const book = {
         name: 'Book Name',
         author: 'Author Name',
@@ -53,7 +52,6 @@ describe('Book', () => {
     });
 
     it('should render responsive image that fits container', () => {
-      // Arrange
       const book = {
         name: 'Book Name',
         author: 'Author Name',

@@ -2,16 +2,9 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { LanguageContext } from '../../contexts/LanguageContext'
 import BookGrid from '../../components/BookGrid';
+import { mockLanguages } from 'src/testing/mocks/LanguageContext.mock';
 
 describe('BookGrid', () => {
-   
-  const mockLanguages = [
-    { id: 1, name: "Croatian" },
-    { id: 2, name: "Serbian" },
-    { id: 3, name: "Polish" },
-  ]
-
-const mockSelectedLanguages = [mockLanguages[0]];
 
 const mockBooks = [
   { id: 1, name: "Book 1", image: '/image.png', language: { id: '1', name: "Croatian"} },

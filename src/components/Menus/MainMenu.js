@@ -4,11 +4,9 @@ import Link from 'next/link';
 import { LanguageContext } from "../../contexts/LanguageContext";
 
 export default function MainMenu() {
-  const categories = useCategories();
-  const { languages, selectedLanguages, updateSelectedLanguages } = useContext(LanguageContext);
+  const { categories, isLoading, isError } = useCategories();
+  const { selectedLanguages } = useContext(LanguageContext);
 
-  const isLoading = !categories.length;
-  const isError = false; // You can handle error states based on your implementation
   const [expandedCategory, setExpandedCategory] = useState(null);
 
   const generateQueryString = () => {
@@ -32,7 +30,7 @@ export default function MainMenu() {
     return <div>Error loading categories.</div>;
   }
   return (
-    <nav className="bg-black p-4 text-yellow-200">
+    <nav className="bg-black p-4 text-yellow-200" data-testid="mainmenu">
       <ul className="flex space-x-4">
         {categories.map((category) => (
           <li key={category.id} className="relative z-10">
