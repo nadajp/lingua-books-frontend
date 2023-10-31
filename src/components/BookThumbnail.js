@@ -31,7 +31,7 @@ export default function BookThumbnail ({ book, index }) {
                 ${book.price}
             </p>
             <div className="flex justify-center ">
-                <button className="text-sm border rounded-lg py-1 px-4 bg-gray-500 text-yellow-300">
+                <button className="text-sm border rounded-lg py-1 px-4 bg-gray-500 text-yellow-300 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-200 focus:ring-opacity-50">
                     Add to Cart
                 </button>
             </div>

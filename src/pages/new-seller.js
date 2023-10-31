@@ -1,104 +1,90 @@
 import { useState } from 'react';
-import Link from 'next/link';
 import axios from 'axios';
 
 export default function NewSellerForm() {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [addressStreet, setAddressStreet] = useState('');
-  const [addressCity, setAddressCity] = useState('');
-  const [addressState, setAddressState] = useState('');
-  const [addressZip, setAddressZip] = useState('');
-  const [addressCountry, setAddressCountry] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [displayName, setDisplayName] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
 
   const handleSubmit = async(e) => {
     e.preventDefault();
 
     const sellerData = {
-      firstName,
-      lastName,
-      addressStreet,
-      addressCity,
-      addressState,
-      addressZip,
-      addressCountry,
-      phoneNumber,
+      displayName,
+      city,
+      state,
     };
-    try {
-      const response = await axios.post('/api/sellers', sellerData);
-      console.log('Seller registration successful', response.data);
 
-      setFirstName('');
-      setLastName('');
-      setAddressStreet('');
-      setAddressCity('');
-      setAddressState('');
-      setAddressZip('');
-      setPhoneNumber('');
-      setAddressCountry('');
+    try {
+      const response = await axios.post('/api/stripe/connect-stripe', sellerData);
+      if (response.data.url) {
+        window.location.href = response.data.url;
+      }
+      setDisplayName('');
     } catch (error) {
       console.error('Error registering seller', error);
     }
   };
 
   return (
-    <div>
-      <h2>Become a Seller</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          First Name:
-          <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
-        </label>
-        <br />
-        <label>
-          Last Name:
-          <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
-        </label>
-        <br />
-        <label>
-          Address:
-          <input type="text" value={addressStreet} onChange={(e) => setAddressStreet(e.target.value)} required />
-        </label>
-        <br />
-        <label>
-          City:
-          <input type="text" value={addressCity} onChange={(e) => setAddressCity(e.target.value)} required />
-        </label>
-        <br />
-        <label>
-          State:
-          <input type="text" value={addressState} onChange={(e) => setAddressState(e.target.value)} required />
-        </label>
-        <br />
-        <label>
-          Zip Code:
-          <input type="text" value={addressZip} onChange={(e) => setAddressZip(e.target.value)} required />
-        </label>
-        <br />
-        <label>
-          Country:
-          <select value={addressCountry} onChange={(e) => setAddressCountry(e.target.value)} required>
-            <option value="">Select Country</option>
-            <option value="USA">USA</option>
-            <option value="Canada">Canada</option>
-            {/* Add more country options */}
-          </select>
-        </label>
-        <br />
-        <label>
-          Phone Number:
-          <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
-        </label>
-        <br />
-        <button type="submit">Submit</button>
-      </form>
-      <p>
-        Already have a Stripe account?{' '}
-        <Link href="https://connect.stripe.com/express/oauth/authorize"
-          target="_blank">Connect with Stripe
-        </Link>
-      </p>
+    <div className="flex justify-center min-h-screen">
+      <div className="w-1/2 p-8 rounded shadow-lg">
+        <h2 className="text-2xl font-semibold mb-6">Become a Seller</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-gray-700 font-medium" htmlFor="displayName">
+              Seller Display Name:
+            </label>
+            <input 
+              id="displayName" 
+              type="text" 
+              value={displayName} 
+              onChange={(e) => setDisplayName(e.target.value)} 
+              required 
+              className="mt-2 p-2 w-full border rounded focus:border-blue-400 focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium" htmlFor="city">
+              City:
+            </label>
+            <input 
+              id="city" 
+              type="text" 
+              value={city} 
+              onChange={(e) => setCity(e.target.value)} 
+              required 
+              className="mt-2 p-2 w-full border rounded focus:border-blue-400 focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium" htmlFor="state">
+              State:
+            </label>
+            <input 
+              id="state" 
+              type="text" 
+              value={state} 
+              onChange={(e) => setState(e.target.value)} 
+              required 
+              className="mt-2 p-2 w-full border rounded focus:border-blue-400 focus:outline-none"
+            />
+          </div>
+
+          <p className="text-gray-600">
+            In order to receive payments, you will need to connect with the Stripe payment system. Please click the link below to complete your Stripe profile.
+          </p>
+
+          <button 
+            type="submit" 
+            className="bg-gray-500 text-yellow-300 rounded-md p-2 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-200 focus:ring-opacity-50"
+          >
+            Connect With Stripe
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

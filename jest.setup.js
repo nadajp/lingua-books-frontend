@@ -6,3 +6,9 @@
 import '@testing-library/jest-dom'
 import '@testing-library/jest-dom/extend-expect'
 import './src/testing/mocks/routerMock'
+import { TextEncoder, TextDecoder } from 'util';
+import { request } from 'http';
+
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
+global.request = request;

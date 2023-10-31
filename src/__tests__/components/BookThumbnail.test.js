@@ -42,6 +42,5 @@ describe('BookThumbnail', () => {
 
         const linkElement = screen.getByTestId('book-link');
         expect(linkElement).toHaveAttribute('href', '/products/1');
-
     });
 })
