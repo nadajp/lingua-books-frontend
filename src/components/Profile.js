@@ -5,7 +5,7 @@ export default function Profile() {
     const { user, error, isLoading } = useUser();
     const { isSeller, isAdmin, isLoadingRoles } = useRoles();
 
-    if (isLoading) return <div className="text-white">Loading...</div>;
+    if (isLoading || isLoadingRoles) return <div className="text-white">Loading...</div>;
     if (error) return <div className="text-red">{error.message}</div>;
   
     if (!user) return (

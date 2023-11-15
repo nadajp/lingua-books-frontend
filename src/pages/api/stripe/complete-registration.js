@@ -17,19 +17,22 @@ export default async function handler(req, res) {
         const stripeAccountId = sellerResponse.data[0].stripeAccountId;
         const account = await stripe.accounts.retrieve(stripeAccountId);
 
+        console.log('account', account);
         let sellerData = {};
-        if (account.charges_enabled) {
-            sellerData.stripeStatus = 'active';
 
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/sellers`, sellerData, config);
-            if (response.status === 201) {
+        sellerData.stripeStatus = account.charges_enabled ? 'active' : 'pending';
+
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/sellers`, sellerData, config);
+        
+        if (response.status === 201) {
+            if (sellerData.stripeStatus === 'active') {
                 await upgradeRoleToSeller(user);
-                return res.status(201).json({ message: 'Seller registration successful.' });
-              } else if (response.status === 401) {
-                return res.status(401).json({ error: 'You must be logged in to become a seller.' });
-              } else {
-                return res.status(response.status).json({ error: 'Seller registration failed.' });
-              }
+            }
+            return res.status(200).json({ message: 'Seller registration successful. Stripe status: ' + sellerData.stripeStatus });
+        } else if (response.status === 401) {
+            return res.status(401).json({ error: 'You must be logged in to become a seller.' });
+        } else {
+            return res.status(response.status).json({ error: 'Seller registration failed.' });
         }
     } catch (error) {
         console.error('Error:', error);

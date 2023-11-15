@@ -21,7 +21,6 @@ export default async function handler(req, res) {
         authUser: user.sub
       };
 
-
     try {
         const account = await createStripeAccount(user, sellerData);
 

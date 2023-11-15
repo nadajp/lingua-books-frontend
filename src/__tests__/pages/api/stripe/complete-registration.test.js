@@ -1,4 +1,4 @@
-import handler, { upgradeRoleToSeller } from 'src/pages/api/sellers';
+import handler, { upgradeRoleToSeller } from '../../../../pages/api/stripe/complete-registration';
 import axios from 'axios';
 
 jest.mock('@auth0/nextjs-auth0', () => ({
@@ -16,7 +16,7 @@ jest.mock('axios', () => ({
 const mockGet = axios.get;
 const mockPost = axios.post;
 
-jest.mock('../../../utils/stripe', () => ({
+jest.mock('../../../../utils/stripe', () => ({
     stripe: {
         accounts: {
             retrieve: jest.fn().mockResolvedValue({ charges_enabled: true })
@@ -24,7 +24,7 @@ jest.mock('../../../utils/stripe', () => ({
     }
 }));
 
-const { retrieve } = require('../../../utils/stripe').stripe.accounts; // get reference to the mocked function
+const { retrieve } = require('../../../../utils/stripe').stripe.accounts; // get reference to the mocked function
 
 const mockAssignRoles = jest.fn().mockResolvedValue(true);
 jest.mock('auth0', () => ({
@@ -60,7 +60,7 @@ describe('handler', () => {
             headers: { 'content-type': 'application/json', Authorization: 'Bearer mockAccessToken' },
         });
 
-        expect(res.status).toHaveBeenCalledWith(201);
-        expect(res.json).toHaveBeenCalledWith({ message: 'Seller registration successful.' });
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ message: 'Seller registration successful. Stripe status: active' });
     });
 });
