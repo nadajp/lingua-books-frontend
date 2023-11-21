@@ -20,12 +20,12 @@ export default async function handler(req, res) {
         console.log('account', account);
         let sellerData = {};
 
-        sellerData.stripeStatus = account.charges_enabled ? 'active' : 'pending';
+        sellerData.stripeStatus = account.charges_enabled ? 'ACTIVE' : 'PENDING';
 
         const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/sellers`, sellerData, config);
         
         if (response.status === 201) {
-            if (sellerData.stripeStatus === 'active') {
+            if (sellerData.stripeStatus === 'ACTIVE') {
                 await upgradeRoleToSeller(user);
             }
             return res.status(200).json({ message: 'Seller registration successful. Stripe status: ' + sellerData.stripeStatus });

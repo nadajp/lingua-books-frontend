@@ -18,7 +18,8 @@ export default async function handler(req, res) {
         displayName,
         city,
         state,
-        authUser: user.sub
+        authUser: user.sub,
+        stripeStatus: 'INITIALIZING'
       };
 
     try {
