@@ -1,17 +1,20 @@
 import { stripe } from 'src/utils/stripe';
 
-// Assuming you've stored the Stripe customer ID in your local database
-const stripeCustomerId = user.stripeCustomerId;
+export default async function handler(req, res) {
 
-const updatedCustomer = await stripe.customers.update(stripeCustomerId, {
-  name: 'New Name',
-  address: {
-    line1: 'New Address Line 1',
-    city: 'New City',
-    postal_code: 'New Postal Code',
-    // ... other address fields
-  }
-});
+  // Assuming you've stored the Stripe customer ID in your local database
+  const stripeCustomerId = user.stripeCustomerId;
+
+  const updatedCustomer = await stripe.customers.update(stripeCustomerId, {
+    name: 'New Name',
+    address: {
+      line1: 'New Address Line 1',
+      city: 'New City',
+      postal_code: 'New Postal Code',
+      // ... other address fields
+    }
+  });
+}
 
 /*
 If you store data both locally (in your own database) and in Stripe, and a user wants to change their name or address, you'd typically follow a flow that updates both data sources to ensure consistency. Here's a step-by-step outline:
