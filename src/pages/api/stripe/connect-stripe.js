@@ -9,7 +9,8 @@ export default async function handler(req, res) {
     const {
         displayName,
         city,
-        state
+        state,
+        country
       } = req.body;
 
       // validation logic here
@@ -18,6 +19,7 @@ export default async function handler(req, res) {
         displayName,
         city,
         state,
+        country,
         authUser: user.sub,
         stripeStatus: 'INITIALIZING'
       };
@@ -25,8 +27,9 @@ export default async function handler(req, res) {
     try {
         const account = await createStripeAccount(user, sellerData);
 
-        // save initial seller data in database
-        await saveSeller(req, res, account.id, user, sellerData);
+        sellerData.stripeAccountId = account.id;
+
+        await saveSeller(req, res, user, sellerData);
 
         const accountLinkUrl = await createStripeAccountLink(account.id);
 
@@ -66,19 +69,8 @@ async function createStripeAccountLink(accountId) {
     return accountLink.url;
 }
 
-async function saveSeller(req, res, accountId, user, sellerData) {
+async function saveSeller(req, res, user, sellerData) {
     const { accessToken } = await getAccessToken(req, res);
-
-    // validate displayName, e.g., check length, check against any forbidden words, etc.
-
-    const seller = {
-        displayName: sellerData.displayName,
-        addressCity: sellerData.city,
-        addressState: sellerData.state,
-        authUser: user.sub,
-        stripeAccountId: accountId,
-        stripeStatus: 'initializing'
-    };
 
     const config = {
         headers: { 'content-type': 'application/json', Authorization: `Bearer ${accessToken}` }
@@ -86,7 +78,7 @@ async function saveSeller(req, res, accountId, user, sellerData) {
 
     return await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/sellers`,
-        seller,
+        sellerData,
         config
     );
 }

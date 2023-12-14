@@ -3,21 +3,24 @@ import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 
 export default function RegistrationSuccess() {
   const { isLoading } = useUser();
+  const [statusMessage, setStatusMessage] = useState('Checking your account status...');
+
+  useEffect(() => {
+    if (!isLoading) {
+      fetch('/api/stripe/complete-registration')
+          .then(response => response.json())
+          .then(data => {
+              setStatusMessage(data.message);
+          })
+          .catch(error => {
+              setStatusMessage('There was an error checking your account status.');
+          });
+    }
+  }, [isLoading]);
+
   if (isLoading) {
     return <p>Loading...</p>;
   }
-  const [statusMessage, setStatusMessage] = useState('Checking your account status...');
-
-  useEffect(() => { 
-    fetch('/api/stripe/complete-registration')
-        .then(response => response.json())
-        .then(data => {
-            setStatusMessage(data.message);
-        })
-        .catch(error => {
-            setStatusMessage('There was an error checking your account status.');
-        });
-  }, []);
 
   return (
     <div>
