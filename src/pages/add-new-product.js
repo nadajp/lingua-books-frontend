@@ -3,8 +3,9 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useCategories } from 'src/contexts/CategoryContext'
 import { LanguageContext } from '../contexts/LanguageContext'
+import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 
-export default function NewProductForm() {
+export default withPageAuthRequired(function NewProductForm() {
     const [name, setName] = useState("");
     const [author, setAuthor] = useState("");
     const [price, setPrice] = useState("");
@@ -29,22 +30,22 @@ export default function NewProductForm() {
     const isLoadingCategories = !categories.length;
     const isErrorCategories = false; // You can handle error states based on your implementation
 
+    const { user, isLoadingUser } = useUser();
+
     const { languages } = useContext(LanguageContext);
 
-    // You need to check whether categories are loaded before setting the initial state
     useEffect(() => {
         if (!isLoadingCategories && categories && categories.length > 0) {
             setCategoryId(categories[0].id.toString());
         }
     }, [isLoadingCategories, categories]);
 
-    if (isLoadingCategories) return <div>Loading...</div>;
+    if (isLoadingCategories || isLoadingUser) return <div>Loading...</div>;
     if (isErrorCategories) return <div>Error loading form data</div>;
     
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // create a FormData object to send the file to the backend
         const formData = new FormData();
         
         formData.append("name", name);
@@ -63,6 +64,7 @@ export default function NewProductForm() {
         formData.append("dimensionLength", dimensionLength);
         formData.append("dimensionWidth", dimensionWidth);
         formData.append("image", image);
+        formData.append("sellerId", user.sub);
 
         try {
             const response = await axios.post('/api/products', formData);
@@ -300,4 +302,4 @@ export default function NewProductForm() {
         </form>
     </div>
   );
-}
+});

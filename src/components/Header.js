@@ -1,6 +1,6 @@
 import Logo from "./common/logo";
 import MainMenu from "./Menus/MainMenu";
-import Profile from "./Profile";
+import Profile from "./UserLinks";
 export default function Header() {
     return (
         <header className="sticky top-0 bg-black z-10 shadow">

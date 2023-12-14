@@ -25,7 +25,8 @@ export default function Book({ book }) {
             <p className="text-gray-600 mb-2">{`Format: ${book.format}`}</p>
             <p className="text-gray-600 mb-2">{`Length: ${book.length} pages`}</p>
             <p className="text-gray-600 mb-2">{`Language: ${book.language.name}`}</p>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <button className="bg-gray-500 text-yellow-300 rounded-md p-2 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-200 focus:ring-opacity-50"
+>
             Add to Cart
           </button>
         </div>    

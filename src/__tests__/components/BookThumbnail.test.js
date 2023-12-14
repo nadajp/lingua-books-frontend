@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import BookThumbnail from '../../components/BookThumbnail';
 
 describe('BookThumbnail', () => {
@@ -42,6 +42,5 @@ describe('BookThumbnail', () => {
 
         const linkElement = screen.getByTestId('book-link');
         expect(linkElement).toHaveAttribute('href', '/products/1');
-
     });
 })

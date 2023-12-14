@@ -3,20 +3,19 @@ import multer from 'multer';
 import axios from 'axios';
 import FormData from 'form-data';
 import fs from 'fs';
-import { getAccessToken } from '@auth0/nextjs-auth0';
+import { getAccessToken, withApiAuthRequired } from '@auth0/nextjs-auth0';
 
 export const config = {
   api: {
     bodyParser: false
   }
 }
-
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/products`
 const upload = multer({ dest: '/tmp' });
 const handler = nextConnect();
 handler.use(upload.single('image'));
 
-handler.post(async (req, res) => {
+export default withApiAuthRequired(handler.post(async (req, res) => {
   const languageId = Number(req.body.language);
   
   const product = {
@@ -64,6 +63,4 @@ handler.post(async (req, res) => {
   } finally {
       fs.unlinkSync(imagePath);
   }
-});
-
-export default handler;
+}));
