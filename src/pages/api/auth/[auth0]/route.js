@@ -5,7 +5,7 @@ export default handleAuth({
         try {
           await handleLogin(req, res, {
             authorizationParams: {
-              audience: 'https://lingua-books.com', 
+              audience: process.env.AUTH0_AUDIENCE, 
               // Add the `offline_access` scope to also get a Refresh Token 
               scope: 'openid profile offline_access' 
             }
