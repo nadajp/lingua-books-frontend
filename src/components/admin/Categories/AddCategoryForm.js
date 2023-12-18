@@ -11,7 +11,7 @@ export default function AddCategoryForm({ onSuccess }) {
   }, []);
 
   async function getCategories() {
-      const categories = await fetchCategories();
+      const categories = await fetchCategories('categories');
       setCategories(categories);
   }
   
