@@ -27,7 +27,7 @@ export default withApiAuthRequired(async function handler(req, res) {
 
     try {
       const { accessToken } = await getAccessToken(req, res);
-    
+      console.log('accessToken: ', accessToken);
       const config = {
           headers: { 'content-type': 'application/json', Authorization: `Bearer ${accessToken}` }
       }        
