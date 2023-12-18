@@ -1,9 +1,9 @@
 import axios from 'axios';
+import { getAccessToken, withApiAuthRequired } from "@auth0/nextjs-auth0";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-export default async function handler(req, res) {
-  console.log('Request method:', req.method);
+export default withApiAuthRequired(async function handler(req, res) {
   if (req.method === 'POST') {
 
     const newCategory = req.body;
@@ -22,11 +22,16 @@ export default async function handler(req, res) {
       ? `${apiUrl}/subcategories`
       : `${apiUrl}/categories`;
 
-      console.log('endpointUrl', endpointUrl)
+      console.log('endpointUrl:', endpointUrl)
       console.log('newCategory', newCategory)
 
     try {
-      const response = await axios.post(endpointUrl, newCategory);
+      const { accessToken } = await getAccessToken(req, res);
+    
+      const config = {
+          headers: { 'content-type': 'application/json', Authorization: `Bearer ${accessToken}` }
+      }        
+      const response = await axios.post(endpointUrl, newCategory, config);
 
       res.status(200).json(response.data);
     } catch (error) {
@@ -36,4 +41,5 @@ export default async function handler(req, res) {
     console.log('HERE*************')
   }
 }
+)
   
