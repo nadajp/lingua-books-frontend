@@ -10,7 +10,6 @@ export default function AdminLayout({ children }) {
         <AdminSidebar />
         <main className="flex-grow p-6">{children}</main>
       </div>
-      <Footer />
     </div>
   );
 }

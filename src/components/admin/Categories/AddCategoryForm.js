@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import fetchCategories from 'src/services/fetchData';
+import fetchData from 'src/services/fetchData';
 
 export default function AddCategoryForm({ onSuccess }) {
   const [categories, setCategories] = useState([]);
@@ -11,7 +11,7 @@ export default function AddCategoryForm({ onSuccess }) {
   }, []);
 
   async function getCategories() {
-      const categories = await fetchCategories('categories');
+      const categories = await fetchData('categories');
       setCategories(categories);
   }
   
