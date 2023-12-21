@@ -26,22 +26,21 @@ export default withPageAuthRequired(function NewProductForm() {
     const [message, setMessage] = useState('');
     const router = useRouter();
 
-    const categories = useCategories();
-    const isLoadingCategories = !categories.length;
-    const isErrorCategories = false; // You can handle error states based on your implementation
-
+    const { categories, isLoadingCategories, isErrorCategories } = useCategories();
     const { user, isLoadingUser } = useUser();
-
     const { languages } = useContext(LanguageContext);
 
     useEffect(() => {
-        if (!isLoadingCategories && categories && categories.length > 0) {
+        if (!isLoadingCategories && !isErrorCategories && categories.length > 0) {
             setCategoryId(categories[0].id.toString());
         }
-    }, [isLoadingCategories, categories]);
+    }, [isLoadingCategories, categories, isErrorCategories]);
 
-    if (isLoadingCategories || isLoadingUser) return <div>Loading...</div>;
-    if (isErrorCategories) return <div>Error loading form data</div>;
+    if (isLoadingCategories) return <div>Loading categories...</div>;
+    if (isLoadingUser) return <div>Loading user...</div>;
+    if (isErrorCategories) return <div>Error loading categories</div>;
+    
+    console.log(categories);
     
     const handleSubmit = async (event) => {
         event.preventDefault();
