@@ -1,21 +1,23 @@
-import nextConnect from 'next-connect';
+import { createRouter } from 'next-connect';
 import multer from 'multer';
 import axios from 'axios';
 import FormData from 'form-data';
 import fs from 'fs';
 import { getAccessToken, withApiAuthRequired } from '@auth0/nextjs-auth0';
+import { create } from 'domain';
 
 export const config = {
   api: {
     bodyParser: false
   }
 }
+
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/products`
 const upload = multer({ dest: '/tmp' });
-const handler = nextConnect();
-handler.use(upload.single('image'));
+const router = createRouter();
+router.use(upload.single('image'));
 
-export default withApiAuthRequired(handler.post(async (req, res) => {
+withApiAuthRequired(router.post(async (req, res) => {
   const languageId = Number(req.body.language);
   
   const product = {
@@ -34,7 +36,7 @@ export default withApiAuthRequired(handler.post(async (req, res) => {
     format: req.body.format,
     dimensionLength: req.body.dimensionLength,
     dimensionWidth: req.body.dimensionWidth,
-    sellerId: 1
+    sellerId: req.body.sellerId
   };
 
   const imagePath = req.file?.path;
@@ -61,6 +63,9 @@ export default withApiAuthRequired(handler.post(async (req, res) => {
       console.error('External API error:', error);
       res.status(500).json({ error: 'Internal server error.' });
   } finally {
-      fs.unlinkSync(imagePath);
+      if (imagePath)
+        fs.unlinkSync(imagePath);
   }
 }));
+
+export default router.handler();

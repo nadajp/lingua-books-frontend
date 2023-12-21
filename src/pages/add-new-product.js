@@ -41,7 +41,7 @@ export default withPageAuthRequired(function NewProductForm() {
     if (isErrorCategories) return <div>Error loading categories</div>;
     
     console.log(categories);
-    
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
