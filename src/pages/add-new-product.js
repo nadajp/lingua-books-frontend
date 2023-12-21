@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import { useCategories } from 'src/contexts/CategoryContext'
+import { useCategories } from '../contexts/CategoryContext'
 import { LanguageContext } from '../contexts/LanguageContext'
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 
@@ -26,7 +26,7 @@ export default withPageAuthRequired(function NewProductForm() {
     const [message, setMessage] = useState('');
     const router = useRouter();
 
-    const { categories, isLoadingCategories, isErrorCategories } = useCategories();
+    const { categories = [], isLoadingCategories, isErrorCategories } = useCategories();
     const { user, isLoadingUser } = useUser();
     const { languages } = useContext(LanguageContext);
 
@@ -40,7 +40,7 @@ export default withPageAuthRequired(function NewProductForm() {
     if (isLoadingUser) return <div>Loading user...</div>;
     if (isErrorCategories) return <div>Error loading categories</div>;
     
-    console.log(categories);
+    console.log({ categories, isLoadingCategories, isErrorCategories });
 
     const handleSubmit = async (event) => {
         event.preventDefault();

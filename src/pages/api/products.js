@@ -4,7 +4,6 @@ import axios from 'axios';
 import FormData from 'form-data';
 import fs from 'fs';
 import { getAccessToken, withApiAuthRequired } from '@auth0/nextjs-auth0';
-import { create } from 'domain';
 
 export const config = {
   api: {

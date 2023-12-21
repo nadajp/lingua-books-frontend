@@ -35,6 +35,11 @@ export default function UserLinks() {
                     Sell a book
                 </a>
             </div>}
+            {isSeller && <div>
+                <a href="/admin" className="text-white hover:text-yellow-200 end-0">
+                    Admin Panel
+                </a>
+            </div>}
         </div>
     );
     }
