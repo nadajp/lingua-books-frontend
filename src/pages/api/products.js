@@ -17,13 +17,13 @@ const router = createRouter();
 router.use(upload.single('image'));
 
 withApiAuthRequired(router.post(async (req, res) => {
-  const languageId = Number(req.body.language);
+  const languageId = Number(req.body.languageId);
   
   const product = {
     name: req.body.name,
     price: req.body.price,
     description: req.body.description,
-    language: { id: languageId},
+    languageId,
     author: req.body.author,
     condition: req.body.condition,
     categoryId: req.body.categoryId,

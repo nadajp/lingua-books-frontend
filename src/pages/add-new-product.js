@@ -10,9 +10,9 @@ export default withPageAuthRequired(function NewProductForm() {
     const [author, setAuthor] = useState("");
     const [price, setPrice] = useState("");
     const [condition, setCondition] = useState("1");
-    const [language, setLanguage] = useState("");
+    const [languageId, setLanguageId] = useState("");
     const [description, setDescription] = useState("");
-    const [categoryId, setCategoryId] = useState("");
+    const [categoryId, setCategoryId] = useState("" );
     const [subcategoryId, setSubcategoryId] = useState("0");
     const [format, setFormat] = useState("paperback");
     const [publisher, setPublisher] = useState("");
@@ -34,14 +34,15 @@ export default withPageAuthRequired(function NewProductForm() {
         if (!isLoadingCategories && !isErrorCategories && categories.length > 0) {
             setCategoryId(categories[0].id.toString());
         }
-    }, [isLoadingCategories, categories, isErrorCategories]);
+        if (languages && languages.length > 0) {
+            setLanguageId(languages[0].id.toString());
+        }
+    }, [isLoadingCategories, categories, isErrorCategories, languages]);
 
     if (isLoadingCategories) return <div>Loading categories...</div>;
     if (isLoadingUser) return <div>Loading user...</div>;
     if (isErrorCategories) return <div>Error loading categories</div>;
     
-    console.log({ categories, isLoadingCategories, isErrorCategories });
-
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -51,7 +52,7 @@ export default withPageAuthRequired(function NewProductForm() {
         formData.append("author", author);
         formData.append("price", price);
         formData.append("condition", condition);
-        formData.append("language", language);
+        formData.append("languageId", languageId);
         formData.append("description", description);
         formData.append("categoryId", categoryId);
         formData.append("subcategoryId", subcategoryId);
@@ -146,8 +147,8 @@ export default withPageAuthRequired(function NewProductForm() {
                         Language*
                     </label>
                     <select id="language" 
-                            value={language} 
-                            onChange={(e) => setLanguage(e.target.value)}
+                            value={languageId} 
+                            onChange={(e) => setLanguageId(e.target.value)}
                             name="language" 
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         {languages.map((lang) => (

@@ -39,18 +39,12 @@ export async function getStaticProps({params}) {
   const category = params.category[0]
   const subcategory = params.category[1] ? params.category[1] : null;
 
-  // console.log('CATEGORY: ', category);
-  // console.log('SUBCATEGORY: ', subcategory);
-
   const categoryId = categories.find((item) => item.slug === category).id;
-  //console.log('CATEGORY ID: ', categoryId);
 
   const subcategoryId = subcategory ? 
         categories.find((catItem) => catItem.id === categoryId)
         .subcategories.find((subItem) => subItem.slug === subcategory).id
          : null;
-
-  //console.log('SUBCATEGORY ID: ', subcategoryId);
 
 // Fetch the data for the specific category and subcategory
 // You can use the category and subcategory parameters to fetch the relevant data from your data source
