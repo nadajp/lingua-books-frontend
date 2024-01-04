@@ -31,7 +31,7 @@ withApiAuthRequired(router.post(async (req, res) => {
     publisher: req.body.publisher,
     publicationYear: req.body.publicationYear,
     isbn: req.body.isbn,
-    length: req.body.length,
+    numberOfPages: req.body.length,
     format: req.body.format,
     dimensionLength: req.body.dimensionLength,
     dimensionWidth: req.body.dimensionWidth,

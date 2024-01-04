@@ -9,7 +9,7 @@ export default withPageAuthRequired(function NewProductForm() {
     const [name, setName] = useState("");
     const [author, setAuthor] = useState("");
     const [price, setPrice] = useState("");
-    const [condition, setCondition] = useState("1");
+    const [condition, setCondition] = useState("New");
     const [languageId, setLanguageId] = useState("");
     const [description, setDescription] = useState("");
     const [categoryId, setCategoryId] = useState("" );
@@ -162,11 +162,11 @@ export default withPageAuthRequired(function NewProductForm() {
                             value={condition} onChange={(e) => setCondition(e.target.value)}
                             name="condition" 
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                            <option value="1">New</option>
-                            <option value="2">Like New</option>
-                            <option value="3">Very Good</option>
-                            <option value="4">Good</option>
-                            <option value="5">Acceptable</option>
+                            <option value="New">New</option>
+                            <option value="Like New">Like New</option>
+                            <option value="Very Good">Very Good</option>
+                            <option value="Good">Good</option>
+                            <option value="Acceptable">Acceptable</option>
                     </select>
                 </div>
             </div>
@@ -204,20 +204,20 @@ export default withPageAuthRequired(function NewProductForm() {
                         <input  type="radio"
                                 id="paperback" 
                                 name="format" 
-                                value="paperback" 
+                                value="Paperback" 
                                 className="form-radio h-4 w-4 text-indigo-600" 
-                                checked={format === "paperback"}
-                                onChange={() => setFormat("paperback")} /> 
+                                checked={format === "Paperback"}
+                                onChange={() => setFormat("Paperback")} /> 
                         <span className="ml-2 text-gray-700">Paperback</span>
                     </label>
                     <label htmlFor="hardcover" className="inline-flex items-center mr-4">
                         <input type="radio" 
                             id="hardcover" 
                             name="format" 
-                            value="hardcover" 
+                            value="Hardcover" 
                             className="form-radio h-4 w-4 text-indigo-600"
-                            checked={format === "hardcover"}
-                            onChange={() => setFormat("hardcover")} />
+                            checked={format === "Hardcover"}
+                            onChange={() => setFormat("Hardcover")} />
                         <span className="ml-2 text-gray-700">Hardcover</span>
                     </label>
                 </div>
