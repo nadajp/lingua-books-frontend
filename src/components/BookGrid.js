@@ -25,10 +25,11 @@ export default function BookGrid({ books }) {
       const languages = selectedLanguages.map((lang) => lang.id);
       return languages.length > 0 ? `languages=${languages.join(',')}` : '';
     };
-
+    console.log('books: ' , books);
     const filteredBooks = books.filter((book) =>
       selectedLanguages.length === 0 || selectedLanguages.map(lang => lang.id).includes(Number(book.language.id)),
-  );
+    );
+    console.log('filteredBooks: ' , filteredBooks);
     return (
         <div className="flex grow mx-auto px-4 my-8">
             <aside className="w-24 px-8 mx-8">

@@ -9,6 +9,7 @@ export default function Home({ products }) {
 }
 
 export async function getStaticProps() {
+  console.log('index.js Loading Products...');
     const products = await loadProducts();  
     
     return { props: { products } };
