@@ -18,6 +18,7 @@ export default function Book({ book }) {
         <h2 className="text-2xl font-bold mb-2">{book.name}</h2>
         <h3 className="text-lg text-red-400 font-medium mb-2">{book.author}</h3>
         <p className="text-gray-800">{`Price: $${book.price}`}</p>
+        <p className="text-gray-800">{`Seller: ${book.sellerName}`}</p>
         <p className="text-gray-800">{`Condition: ${book.condition}`}</p>
         <p className="text-gray-800">{`Publisher: ${book.publisher}`}</p>
         <p className="text-gray-800">{`Year of Publishing: ${book.publicationYear}`}</p>

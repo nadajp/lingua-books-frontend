@@ -3,7 +3,6 @@ import loadProductImage from "./loadProductImage";
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/products`;
 
 export default async function loadProducts() {
-  console.log('load products from API_URL: ', API_URL);
     try {
       const res = await fetch(API_URL);
       let products = await res.json();
