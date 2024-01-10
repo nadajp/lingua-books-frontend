@@ -1,5 +1,5 @@
 export default s3Params = {
-    Bucket: "lingua-books-images",
-    Key: "images/"
+    Bucket: process.env.AWS_BUCKET_NAME,
+    Key: `${process.env.AWS_BUCKET_KEY}/`
   };
 
