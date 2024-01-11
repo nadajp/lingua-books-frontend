@@ -13,6 +13,7 @@ export default async function loadProducts() {
         } else {
           product.image = '/book-cover-placeholder.png';
         }
+        console.log('product image: ' , product.image);
       }
       return products;
     } catch (error) {
