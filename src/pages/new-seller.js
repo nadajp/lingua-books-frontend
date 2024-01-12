@@ -1,14 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useUser } from '@auth0/nextjs-auth0/client';
 import axios from 'axios';
 import { Country, State, City } from 'country-state-city';
 
 export default function NewSellerForm() {
+  const { user, error, isLoading } = useUser();
   const [displayName, setDisplayName] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [country, setCountry] = useState('US');
   const [stateLabel, setStateLabel] = useState('State'); // Default value can be 'State' or 'Province' as per your preference
 
+  useEffect(() => {
+    if (!isLoading && !error && user.nickname?.length > 0) {
+        setDisplayName(user.nickname);
+    }
+  }, [isLoading, error, user]);
+
+  if (isLoading) return <div className="text-white">Loading...</div>;
+  if (error) return <div className="text-red">{error.message}</div>;
+  
   const allowedCountries = ['US', 'CA'];
 
   const countries = Country.getAllCountries()
