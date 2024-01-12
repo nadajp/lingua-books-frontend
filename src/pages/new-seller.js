@@ -35,6 +35,7 @@ export default function NewSellerForm() {
 
     try {
       const response = await axios.post('/api/stripe/connect-stripe', sellerData);
+      console.log('stripe response: ' , response.data);
       if (response.data.url) {
         window.location.href = response.data.url;
       }

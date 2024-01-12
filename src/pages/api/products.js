@@ -31,7 +31,7 @@ withApiAuthRequired(router.post(async (req, res) => {
     publisher: req.body.publisher,
     publicationYear: req.body.publicationYear,
     isbn: req.body.isbn,
-    numberOfPages: req.body.length,
+    length: req.body.length,
     format: req.body.format,
     dimensionLength: req.body.dimensionLength,
     dimensionWidth: req.body.dimensionWidth,
@@ -48,7 +48,6 @@ withApiAuthRequired(router.post(async (req, res) => {
 
   try {
     const { accessToken } = await getAccessToken(req, res);
-    console.log('accessToken: ', accessToken);
 
     const headers = {
       'Content-Type': 'multipart/form-data', Authorization: `Bearer ${accessToken}` 

@@ -29,7 +29,7 @@ export default async function handler(req, res) {
 
         sellerData.stripeAccountId = account.id;
 
-        await saveSeller(req, res, user, sellerData);
+        await saveSeller(req, res, sellerData);
 
         const accountLinkUrl = await createStripeAccountLink(account.id);
 
@@ -50,7 +50,7 @@ async function createStripeAccount(user, sellerData) {
         email: user.email,
         business_type: 'individual',
         business_profile: {
-            url: process.env.LINGUA_BASE_URL,
+            url: process.env.LINGUA_BOOKS_HOME,
             support_address: {
                 city: sellerData.city,
                 state: sellerData.state,
@@ -62,14 +62,14 @@ async function createStripeAccount(user, sellerData) {
 async function createStripeAccountLink(accountId) {
     const accountLink = await stripe.accountLinks.create({
         account: accountId,
-        refresh_url: process.env.BASE_URL,  
-        return_url: process.env.STRIPE_RETURN_URL, 
+        refresh_url: process.env.LINGUA_BOOKS_HOME,  
+        return_url: `${process.env.LINGUA_BOOKS_HOME}/stripe-registration-status`, 
         type: 'account_onboarding',
     });
     return accountLink.url;
 }
 
-async function saveSeller(req, res, user, sellerData) {
+async function saveSeller(req, res, sellerData) {
     const { accessToken } = await getAccessToken(req, res);
 
     const config = {
