@@ -7,8 +7,7 @@ export default function Home({ products }) {
    <BookGrid books={ products }/>
   )
 }
-
-export async function getStaticProps() {
+export async function getServerSideProps() {
   console.log('index.js Loading Products...');
     const products = await loadProducts();  
     
