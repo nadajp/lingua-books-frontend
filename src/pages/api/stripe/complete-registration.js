@@ -13,7 +13,7 @@ export default async function handler(req, res) {
             headers: { 'content-type': 'application/json', Authorization: `Bearer ${accessToken}` }
         };
 
-        const sellerResponse = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/sellers?authUser=${encodedAuthUser}`, config);
+        const sellerResponse = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/sellers/${encodedAuthUser}`, config);
         
         console.log('Seller response: ', sellerResponse.data);
 
@@ -24,9 +24,8 @@ export default async function handler(req, res) {
         let sellerData = {};
 
         sellerData.stripeStatus = account.charges_enabled ? 'ACTIVE' : 'PENDING';
+        const response = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/sellers/${encodedAuthUser}`, sellerData, config); 
 
-        const response = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/sellers?authUser=${encodedAuthUser}`, sellerData, config);
-        
         if (response.status === 200) {
             if (sellerData.stripeStatus === 'ACTIVE') {
                 await upgradeRoleToSeller(user);
