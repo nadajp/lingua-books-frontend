@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client';
+import { useRouter } from 'next/router';
 
 export default function RegistrationSuccess() {
   const { isLoading } = useUser();
@@ -11,6 +12,8 @@ export default function RegistrationSuccess() {
           .then(response => response.json())
           .then(data => {
               setStatusMessage(data.message);
+              const router = useRouter();
+              router.push('/add-new-product');
           })
           .catch(error => {
               setStatusMessage('There was an error checking your account status.');
