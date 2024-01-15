@@ -5,6 +5,8 @@ import { useRouter } from 'next/router';
 export default function RegistrationSuccess() {
   const { isLoading } = useUser();
   const [statusMessage, setStatusMessage] = useState('Checking your account status...');
+  const [shouldRedirect, setShouldRedirect] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (!isLoading) {
@@ -12,14 +14,20 @@ export default function RegistrationSuccess() {
           .then(response => response.json())
           .then(data => {
               setStatusMessage(data.message);
-              const router = useRouter();
-              router.push('/add-new-product');
+              if (data.shouldRedirect) { // Assuming your API returns a flag indicating redirection
+                setShouldRedirect(true);
+              }
           })
           .catch(error => {
               setStatusMessage('There was an error checking your account status.');
           });
     }
   }, [isLoading]);
+
+  if (shouldRedirect) {
+    router.push('/add-new-product');
+    return; // Prevent further rendering
+  }
 
   if (isLoading) {
     return <p>Loading...</p>;

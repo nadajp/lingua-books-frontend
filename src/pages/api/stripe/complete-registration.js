@@ -30,7 +30,7 @@ export default async function handler(req, res) {
             if (sellerData.stripeStatus === 'ACTIVE') {
                 await upgradeRoleToSeller(user);
             }
-            return res.status(200).json({ message: 'Seller registration successful. Stripe status: ' + sellerData.stripeStatus });
+            return res.status(200).json({ message: 'Seller registration successful. Stripe status: ' + sellerData.stripeStatus, shouldRedirect: true });
         } else if (response.status === 401) {
             return res.status(401).json({ error: 'You must be logged in to become a seller.' });
         } else {
