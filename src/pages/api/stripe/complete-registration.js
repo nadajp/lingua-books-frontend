@@ -17,7 +17,8 @@ export default async function handler(req, res) {
         
         console.log('Seller response: ', sellerResponse.data);
 
-        const stripeAccountId = sellerResponse.data[0].stripeAccountId;
+        const stripeAccountId = sellerResponse.data.stripeAccountId;
+        console.log('stripeAccountId: ', stripeAccountId);
         const account = await stripe.accounts.retrieve(stripeAccountId);
 
         console.log('Stripe account: ', account);
