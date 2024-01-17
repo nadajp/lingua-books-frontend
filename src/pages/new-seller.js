@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import axios from 'axios';
-import { Country, State, City } from 'country-state-city';
+import { Country, State } from 'country-state-city';
 
-export default function NewSellerForm() {
+export default function NewSellerForm({locationData}) {
   const { user, error, isLoading } = useUser();
   const [displayName, setDisplayName] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [country, setCountry] = useState('US');
-  const [stateLabel, setStateLabel] = useState('State'); // Default value can be 'State' or 'Province' as per your preference
+  const [stateLabel, setStateLabel] = useState('State'); 
+  const [formErrors, setFormErrors] = useState({});
 
   useEffect(() => {
     if (!isLoading && !error && user.nickname?.length > 0) {
@@ -17,6 +18,14 @@ export default function NewSellerForm() {
     }
   }, [isLoading, error, user]);
 
+  useEffect(() => {
+    if (locationData) {
+      setCountry(locationData.country_code || 'US'); // Set default or detected country
+      setState(locationData.area || ''); // Set default or detected state
+      setCity(locationData.city_name || ''); // Set default or detected city
+    }
+  }, [locationData]); // This useEffect runs only when locationData changes
+  
   if (isLoading) return <div className="text-white">Loading...</div>;
   if (error) return <div className="text-red">{error.message}</div>;
   
@@ -29,13 +38,21 @@ export default function NewSellerForm() {
     const countryCode = e.target.value;
     setCountry(countryCode);
     setStateLabel(countryCode === 'US' ? 'State' : 'Province');
-    setState(''); // Reset state selection when country changes
+    setState(''); 
   };
     
   const states = country ? State.getStatesOfCountry(country) : [];
 
   const handleSubmit = async(e) => {
     e.preventDefault();
+
+    const errors = validateInputs(displayName, city);
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+  
+    setFormErrors({});
 
     const sellerData = {
       displayName,
@@ -44,18 +61,34 @@ export default function NewSellerForm() {
       country
     };
 
-    try {
-      const response = await axios.post('/api/stripe/connect-stripe', sellerData);
-      console.log('stripe response: ' , response.data);
-      if (response.data.url) {
-        window.location.href = response.data.url;
-      }
-      setDisplayName('');
-    } catch (error) {
-      console.error('Error registering seller', error);
-    }
+    axios.post('/api/stripe/connect-stripe', sellerData)
+      .then(response => response.json())
+      .then(data => {
+        if (data.errors) {
+          setFormErrors(data.errors);
+        } else if (response.data.url) {
+          window.location.href = response.data.url;
+          setDisplayName('');
+        }
+      })
+      .catch(error => {
+        console.error('Error registering seller', error);
+      });
   };
 
+  function validateInputs(displayName, city) {
+    const errors = {};
+    const alphaRegex = /^[A-Za-z ]+$/;
+  
+    if (!displayName || displayName.length < 2 || displayName.length > 50 || !alphaRegex.test(displayName)) {
+      errors.displayName = "Display name must be between 2 and 50 alphabetic characters.";
+    }
+    if (!city || city.length < 2 || city.length > 100 || !alphaRegex.test(city)) {
+      errors.city = "City name must be between 2 and 100 alphabetic characters.";
+    }
+    return errors;
+  }
+  
   return (
     <div className="flex justify-center min-h-screen">
       <div className="w-2/3 p-8 rounded shadow-lg">
@@ -73,6 +106,7 @@ export default function NewSellerForm() {
               required 
               className="mt-2 p-2 w-1/2 border rounded focus:border-blue-400 focus:outline-none"
             />
+            {formErrors.displayName && <div className="error">{formErrors.displayName}</div>}
           </div>
           <div>
             <select value={country} onChange={handleCountryChange} className="mr-2">
@@ -105,6 +139,7 @@ export default function NewSellerForm() {
               required 
               className="mt-2 p-2 w-1/2 border rounded focus:border-blue-400 focus:outline-none"
             />
+            {formErrors.city && <div className="error">{formErrors.city}</div>}
           </div>
 
 
@@ -122,4 +157,22 @@ export default function NewSellerForm() {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  let userIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  if (userIp.substr(0, 7) == "::ffff:") {
+    userIp = userIp.substr(7)
+  }
+  let locationData = null;
+  try {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_GEO_REST_API_ENDPOINT}&ip=${userIp}`);
+    if (response.status === 200) {
+      locationData = response.data;
+    }
+    console.log('Location data: ', locationData);
+    } catch (error) {
+      console.error('Error fetching IP info:', error);
+    }
+    return { props: { locationData } };
 }

@@ -4,7 +4,6 @@ import { getAccessToken } from '@auth0/nextjs-auth0';
 import { getSession } from '@auth0/nextjs-auth0';
 
 export default async function handler(req, res) {
-
     const { user } = await getSession(req, res);
     const {
         displayName,
@@ -13,17 +12,20 @@ export default async function handler(req, res) {
         country
       } = req.body;
 
-      // validation logic here
+    const errors = validateInput(displayName, city);
+    if (errors.length > 0) {
+        res.status(400).json({ errors });
+    } 
 
-      const sellerData = {
-        displayName,
-        city,
-        state,
-        country,
-        authUser: user.sub,
-        stripeStatus: 'INITIALIZING'
-      };
-
+    const sellerData = {
+    displayName,
+    city,
+    state,
+    country,
+    authUser: user.sub,
+    stripeStatus: 'INITIALIZING'
+    };
+      
     try {
         const account = await createStripeAccount(user, sellerData);
 
@@ -44,6 +46,21 @@ export default async function handler(req, res) {
     }
 }
 
+function validateInput(displayName, city) {
+    let errors = [];
+  
+    const alphaRegex = /^[A-Za-z ]+$/;
+  
+    if (!displayName || displayName.length < 2 || displayName.length > 50 || !alphaRegex.test(displayName)) {
+      errors.push("Display name must be between 2 and 50 alphabetic characters.");
+    }
+  
+    if (!city || city.length < 2 || city.length > 100 || !alphaRegex.test(city)) {
+      errors.push("City name must be between 2 and 100 alphabetic characters.");
+    }
+    return errors;
+  }
+  
 async function createStripeAccount(user, sellerData) {
     return await stripe.accounts.create({
         type: 'express',

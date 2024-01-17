@@ -22,7 +22,6 @@ export default withPageAuthRequired(function Account() {
         <div className="w-2/3 p-2 rounded shadow-lg">
             <h1 className="text-3xl text-center font-bold mb-2">My Account</h1>
             <form onSubmit={handleSubmit} className="space-y-4">
-     
                 <div className="mb-6">
                     <label className="block text-sm font-medium text-gray-700">Email:  {user.email}</label>
                 </div>
@@ -33,7 +32,7 @@ export default withPageAuthRequired(function Account() {
                         type="text" 
                         id="displayName" 
                         className="mt-1 block w-1/2 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
-                        defaultValue={user.name} 
+                        defaultValue={user.nickname} 
                     />
                 </div>
         
