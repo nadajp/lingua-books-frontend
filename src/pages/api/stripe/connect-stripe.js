@@ -18,12 +18,12 @@ export default async function handler(req, res) {
     } 
 
     const sellerData = {
-    displayName,
-    city,
-    state,
-    country,
-    authUser: user.sub,
-    stripeStatus: 'INITIALIZING'
+        displayName,
+        city,
+        state,
+        country,
+        authUser: user.sub,
+        stripeStatus: 'INITIALIZING'
     };
       
     try {
@@ -88,11 +88,9 @@ async function createStripeAccountLink(accountId) {
 
 async function saveSeller(req, res, sellerData) {
     const { accessToken } = await getAccessToken(req, res);
-
     const config = {
         headers: { 'content-type': 'application/json', Authorization: `Bearer ${accessToken}` }
     }
-
     return await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/sellers`,
         sellerData,

@@ -29,7 +29,6 @@ jest.mock('multer', () => {
     return jest.fn(() => multerMock);
   });
   
-
 describe('products handler', () => {
     afterEach(() => {
         jest.clearAllMocks();

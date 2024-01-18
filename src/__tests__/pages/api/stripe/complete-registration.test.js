@@ -6,7 +6,6 @@ jest.mock('@auth0/nextjs-auth0', () => ({
     getSession: jest.fn().mockResolvedValue({ user: { sub: 'mockUserId', email: 'mockUserEmail' } })
 }));
 
-
 const { getAccessToken, getSession } = require('@auth0/nextjs-auth0');
 
 jest.mock('axios', () => ({
