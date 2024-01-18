@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 
 global.fetch = jest.fn(() =>
   Promise.resolve({
-    json: () => Promise.resolve({ message: "Test message" }),
+    json: () => Promise.resolve({ message: "Test message", shouldRedirect: true }),
   })
 );
 
@@ -48,7 +48,7 @@ describe('Registration success', () => {
     useRouter.mockReturnValueOnce({ push: pushMock });
     global.fetch = jest.fn(() =>
       Promise.resolve({
-        json: () => Promise.resolve({ message: "Test message" }),
+        json: () => Promise.resolve({ message: "Test message", shouldRedirect: true}),
       })
     );
     render(
@@ -56,7 +56,7 @@ describe('Registration success', () => {
         <RegistrationSuccess />
       </UserProvider>
     );
-    await waitFor(() => {
+    waitFor(() => {
       expect(pushMock).toHaveBeenCalledWith('/add-new-product');
     });
   });

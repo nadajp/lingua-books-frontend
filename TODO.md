@@ -3,7 +3,9 @@ TODO
 x check seller creation
 x fix AWS images
 x add seller name to book description
-- set seller country/state by IP address
+x set seller country/state by IP address
+- add validation to all user forms
+- add tests
 - add to cart
-- add edit product page for sellers
-- EDIT and DELETE in admin panel
+- add admin product page for sellers, with edit and delete
+- EDIT and DELETE buttons in admin panel

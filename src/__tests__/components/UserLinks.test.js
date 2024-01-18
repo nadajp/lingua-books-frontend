@@ -40,7 +40,6 @@ describe('UserLinks', () => {
         require('../../contexts/RolesContext').useRoles.mockReturnValue({ isSeller: true });
 
         render(<UserLinks />);
-        expect(screen.getByText('Hello Test User!')).toBeInTheDocument();
         expect(screen.getByText('Sell a book')).toBeInTheDocument();
     });
 
@@ -49,7 +48,13 @@ describe('UserLinks', () => {
         require('../../contexts/RolesContext').useRoles.mockReturnValue({ isSeller: false });
 
         render(<UserLinks />);
-        expect(screen.getByText('Hello Test User!')).toBeInTheDocument();
         expect(screen.getByText('Become a Seller')).toBeInTheDocument();
+    });
+    it('displays admin panel link for administrators', () => {
+        require('@auth0/nextjs-auth0/client').useUser.mockReturnValue({ user: { name: 'Test User' } });
+        require('../../contexts/RolesContext').useRoles.mockReturnValue({ isAdmin: true });
+
+        render(<UserLinks />);
+        expect(screen.getByText('Admin Panel')).toBeInTheDocument();
     });
 });

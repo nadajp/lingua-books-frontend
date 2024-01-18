@@ -3,7 +3,7 @@ import AdminLayout from '../../components/admin/AdminLayout';
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 
 export default withPageAuthRequired(function CategoriesPage() {
-  const { user, isLoading } = useUser();
+  const { isLoading } = useUser();
   
   if (isLoading) return <div className="text-white">Loading...</div>;
 

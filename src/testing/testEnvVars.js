@@ -1,0 +1,1 @@
+process.env.ROLE_SELLER='rol_123456789'
