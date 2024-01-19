@@ -8,8 +8,8 @@ export default function Book({ book }) {
           src={book.image}
           alt={book.name}
           layout="intrinsic"
-          width={380}  // Adjust the width as needed
-          height={380} // Adjust the height as needed
+          width={380} 
+          height={380} // Adjust
           quality={100}
           style={{ objectFit: 'contain' }}
         />

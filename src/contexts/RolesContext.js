@@ -18,7 +18,6 @@ const RolesProvider = ({ user, children }) => {
       
       axios.post('/api/getRoles', data).then((response) => {
         const rolesData = response?.data?.data || [];
-        
         setIsSeller(rolesData.some(item => item.name === "seller"));
         setIsAdmin(rolesData.some(item => item.name === "admin"));
       }).catch(() => {

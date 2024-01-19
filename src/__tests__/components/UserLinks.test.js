@@ -12,7 +12,14 @@ jest.mock('../../contexts/RolesContext', () => ({
 describe('UserLinks', () => {
     it('displays loading when user data is being fetched', () => {
         require('@auth0/nextjs-auth0/client').useUser.mockReturnValue({ isLoading: true });
-        require('../../contexts/RolesContext').useRoles.mockReturnValue({});
+        require('../../contexts/RolesContext').useRoles.mockReturnValue({isLoadingRoles: false});
+
+        render(<UserLinks />);
+        expect(screen.getByText('Loading...')).toBeInTheDocument();
+    });
+    it('displays loading when roles data is being fetched', () => {
+        require('@auth0/nextjs-auth0/client').useUser.mockReturnValue({ isLoading: false });
+        require('../../contexts/RolesContext').useRoles.mockReturnValue({isLoadingRoles: true});
 
         render(<UserLinks />);
         expect(screen.getByText('Loading...')).toBeInTheDocument();
