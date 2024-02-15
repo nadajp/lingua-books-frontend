@@ -21,7 +21,7 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getServerSideProps({ params }) {
+export async function getStaticProps({ params }) {
   const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/products`;
   const res = await fetch(`${API_URL}/${params.id}`);
   
