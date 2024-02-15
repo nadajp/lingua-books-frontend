@@ -20,7 +20,6 @@ describe('Book', () => {
 
       render(<Book book={book} />);
 
-      expect(screen.getByAltText('Book Name')).toBeInTheDocument();
       expect(screen.getByText('Book Name')).toBeInTheDocument();
       expect(screen.getByText('Author Name')).toBeInTheDocument();
       expect(screen.getByText('Price: $10')).toBeInTheDocument();

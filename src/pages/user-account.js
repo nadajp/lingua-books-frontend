@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react'
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import axios from 'axios'
 
-export default withPageAuthRequired(function Account() {
+export default withPageAuthRequired(function UserAccount() {
     const { user, isLoading } = useUser();
     const [username, setUsername] = useState('');
     
@@ -11,11 +11,23 @@ export default withPageAuthRequired(function Account() {
     const handleSubmit = async(e) => {
         e.preventDefault();
     
-        const account = {
-          username,
-        };
-    
-      };
+        //validate inputs
+        
+        const formData = new FormData();
+        
+        formData.append("username", username);
+        formData.append("preferredLanguages", preferredLanguages);
+        formData.append("userId", userId);
+
+        try {
+            const response = await axios.post('/api/user-account', formData);
+            console.log(response);
+            setMessage('User updated!');
+          } catch (error) {
+            console.error(error);
+            setMessage('Error: Something went wrong.');
+          }
+    }
 
     return (
         <div className="flex justify-center min-h-screen mt-2">
@@ -38,8 +50,7 @@ export default withPageAuthRequired(function Account() {
         
                 <button 
                     type="submit" 
-                    className="block mx-auto bg-gray-500 text-yellow-300 rounded-md py-2 px-10 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-200 focus:ring-opacity-50"
-                >
+                    className="block mx-auto bg-gray-500 text-yellow-300 rounded-md py-2 px-10 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-200 focus:ring-opacity-50">
                     Save
                 </button>
             </form>

@@ -13,7 +13,7 @@ const LanguageProvider = ({ children }) => {
 
   useEffect(() => {
     async function getLanguages() {
-      const languages = await fetchData('languages');
+      const languages = await fetchData('languages/active');
       setLanguages(languages);
     }
     getLanguages();

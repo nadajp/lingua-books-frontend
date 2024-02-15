@@ -10,3 +10,4 @@ x set seller country/state by IP address
 - add to cart
 - add admin product page for sellers, with edit and delete
 - EDIT and DELETE buttons in admin panel
+
